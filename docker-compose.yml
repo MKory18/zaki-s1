@@ -1,0 +1,68 @@
+# تشغيل: docker compose up -d --build     إيقاف: docker compose down
+# الأسرار بملف .env (انسخه من .env.example). التشفير والدومين (HTTPS) على كوليفاي.
+name: zaki-s1
+
+x-env: &env
+  env_file: .env
+  environment:
+    TZ: Asia/Amman
+    DATABASE_URL: postgresql://${POSTGRES_USER:-zaki}:${POSTGRES_PASSWORD:?عبّي POSTGRES_PASSWORD بملف .env}@postgres:5432/${POSTGRES_DB:-zaki_s1}
+    REDIS_URL: redis://redis:6379
+    S3_ENDPOINT: http://minio:9000
+
+services:
+  app:
+    build: { context: ., target: app }
+    <<: *env
+    ports: ["${APP_PORT:-3000}:3000"]
+    depends_on:
+      postgres: { condition: service_healthy }
+      redis: { condition: service_healthy }
+    restart: unless-stopped
+
+  worker:
+    build: { context: ., target: worker }
+    <<: *env
+    depends_on:
+      postgres: { condition: service_healthy }
+      redis: { condition: service_healthy }
+    restart: unless-stopped
+
+  postgres:
+    image: pgvector/pgvector:pg16
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-zaki}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?عبّي POSTGRES_PASSWORD بملف .env}
+      POSTGRES_DB: ${POSTGRES_DB:-zaki_s1}
+    volumes: [pgdata:/var/lib/postgresql/data]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-zaki} -d ${POSTGRES_DB:-zaki_s1}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes: [redisdata:/data]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    restart: unless-stopped
+
+  minio:
+    image: cgr.dev/chainguard/minio:latest
+    command: ["server", "/data", "--console-address", ":9001"]
+    environment:
+      MINIO_ROOT_USER: ${S3_ACCESS_KEY:?عبّي S3_ACCESS_KEY بملف .env}
+      MINIO_ROOT_PASSWORD: ${S3_SECRET_KEY:?عبّي S3_SECRET_KEY بملف .env}
+    volumes: [miniodata:/data]
+    restart: unless-stopped
+
+volumes:
+  pgdata:
+  redisdata:
+  miniodata:

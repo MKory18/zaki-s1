@@ -1,0 +1,31 @@
+# صورة سيستم 1: هدفين من نفس الملف. app للموقع، وworker للطابور والجدولة.
+FROM node:22-alpine AS deps
+WORKDIR /app
+COPY package.json package-lock.json ./
+RUN npm ci
+
+FROM deps AS build
+COPY . .
+ENV NEXT_TELEMETRY_DISABLED=1
+RUN mkdir -p public && npm run build
+
+# ── الموقع والـ API: مجلد standalone بس، صورة صغيرة ──
+FROM node:22-alpine AS app
+WORKDIR /app
+ENV NODE_ENV=production NEXT_TELEMETRY_DISABLED=1 PORT=3000 HOSTNAME=0.0.0.0 TZ=Asia/Amman
+COPY --from=build /app/.next/standalone ./
+COPY --from=build /app/.next/static ./.next/static
+COPY --from=build /app/public ./public
+EXPOSE 3000
+HEALTHCHECK --interval=15s --timeout=5s --retries=5 CMD wget -qO- http://127.0.0.1:3000/api/health || exit 1
+CMD ["node", "server.js"]
+
+# ── العامل ──
+FROM node:22-alpine AS worker
+WORKDIR /app
+ENV NODE_ENV=production TZ=Asia/Amman
+COPY --from=deps /app/node_modules ./node_modules
+COPY package.json tsconfig.json ./
+COPY src ./src
+COPY worker ./worker
+CMD ["npx", "tsx", "worker/index.ts"]

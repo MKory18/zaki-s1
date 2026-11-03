@@ -1,0 +1,33 @@
+:root {
+  --s1-bg: #f4f8fa;
+  --s1-fg: #1f2933;
+  --s1-accent: #0c3252;
+  --s1-muted: #6b7a85;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--s1-bg);
+  color: var(--s1-fg);
+  font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+  line-height: 1.7;
+}
+
+.shell {
+  max-width: 40rem;
+  margin: 0 auto;
+  padding: 4rem 1.25rem;
+}
+
+h1 {
+  color: var(--s1-accent);
+  margin: 0 0 0.5rem;
+}
+
+.muted {
+  color: var(--s1-muted);
+}

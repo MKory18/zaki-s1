@@ -1,0 +1,20 @@
+node_modules/
+.next/
+out/
+coverage/
+playwright-report/
+test-results/
+next-env.d.ts
+*.tsbuildinfo
+
+# أسرار وبيانات خاصة: ما بتنرفع أبداً
+.env
+.env.*
+!.env.example
+backups/
+data/
+*.pem
+*.key
+
+.DS_Store
+Thumbs.db
