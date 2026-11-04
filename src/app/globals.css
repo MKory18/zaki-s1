@@ -31,3 +31,40 @@ h1 {
 .muted {
   color: var(--s1-muted);
 }
+
+.row {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  margin-top: 1.5rem;
+}
+
+.btn,
+button {
+  background: var(--s1-accent);
+  color: #fff;
+  border: 0;
+  border-radius: 0.5rem;
+  padding: 0.55rem 1.1rem;
+  font: inherit;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.error {
+  color: #b00020;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+th,
+td {
+  text-align: start;
+  padding: 0.5rem;
+  border-bottom: 1px solid #d5e1e6;
+}

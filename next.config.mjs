@@ -4,6 +4,8 @@ const nextConfig = {
   output: "standalone",
   poweredByHeader: false,
   reactStrictMode: true,
+  // اختبارات المتصفح بتفتح 127.0.0.1؛ بلاها نسخة التطوير بتحجب ملفات الواجهة وما بتشتغل الأزرار
+  allowedDevOrigins: ["127.0.0.1"],
 };
 
 export default nextConfig;
