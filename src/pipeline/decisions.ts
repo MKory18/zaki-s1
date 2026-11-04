@@ -21,6 +21,7 @@ export async function decideCandidate(
   id: string,
   actor: { sub: string; role: string },
   input: { action: string; reasonCode?: string; reasonText?: string },
+  opts: { fromTelegram?: boolean } = {},
 ) {
   const action = input.action as CardAction;
   if (!(action in TARGET)) throw new DecisionError("bad_request", "الإجراء لازم deep_research أو watch أو reject");
@@ -48,8 +49,8 @@ export async function decideCandidate(
   }
   const [, decision] = await db.$transaction([
     db.candidate.update({ where: { id }, data: { status: TARGET[action] } }),
-    db.decision.create({ data: { candidateId: id, actorId: actor.sub, action, reasonCode, reasonText } }),
+    db.decision.create({ data: { candidateId: id, actorId: actor.sub, action, reasonCode, reasonText, fromTelegram: Boolean(opts.fromTelegram) } }),
   ]);
-  recordAudit({ actorId: actor.sub, action: `candidate.${action}`, entity: "Candidate", entityId: id, before: { status: c.status }, after: { status: TARGET[action], reasonCode, reasonText } });
+  recordAudit({ actorId: actor.sub, action: `candidate.${action}`, entity: "Candidate", entityId: id, before: { status: c.status }, after: { status: TARGET[action], reasonCode, reasonText, fromTelegram: Boolean(opts.fromTelegram) } });
   return { id, status: TARGET[action], decisionId: decision.id };
 }

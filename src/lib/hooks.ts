@@ -7,6 +7,8 @@ import type { UserRecord } from "@/lib/users";
 export interface Sinks {
   audit?: (e: AuditEntry) => void;
   alert?: (a: AlertEntry) => void;
+  /** إشعار خارجي (تيليجرام) بعد التخزين، بلا انتظار. */
+  notify?: (a: AlertEntry) => void;
   user?: (u: UserRecord) => void;
 }
 

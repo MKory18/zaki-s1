@@ -1,5 +1,6 @@
 // نقطة دخول العامل: الطابور والجدولة. بلا REDIS_URL أو DATABASE_URL بيشتغل بنبض بس (تطوير بسيط).
 import { dbConfigured, getDb } from "../src/lib/db";
+import { ensureHydrated } from "../src/lib/persist";
 import { listSettings } from "../src/lib/settings";
 import { alertJobFailure, HANDLERS } from "../src/jobs/handlers";
 import { makeQueue, redisConnection, registerSchedulers, startWorker } from "../src/jobs/queue";
@@ -18,6 +19,7 @@ async function main() {
     log("الطابور مطفي: REDIS_URL أو DATABASE_URL مش مضبوط");
     return;
   }
+  await ensureHydrated(); // بدونها تنبيهات العامل (وقف وكيل · مهمة فشلت) ما بتنحفظ ولا بتوصل تيليجرام
   const connection = redisConnection();
   const queue = makeQueue(connection);
   const settings = Object.fromEntries(
