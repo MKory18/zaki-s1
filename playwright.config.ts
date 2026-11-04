@@ -15,5 +15,7 @@ export default defineConfig({
     url: `http://127.0.0.1:${PORT}/api/health`,
     reuseExistingServer: false,
     timeout: 120_000,
+    // قيم تجربة بس (مش أسرار حقيقية): دخول المالك المحلي مفتوح لنسخة التطوير
+    env: { AUTH_SECRET: "e2e-test-secret-e2e-test-secret-1234", AUTH_DEV_OWNER: "1" }, // scan:ok
   },
 });
