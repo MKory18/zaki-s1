@@ -23,6 +23,7 @@ const PLACEHOLDER = /^(\$.*|<.*>|changeme|xxx+|\.\.\.|your[-_].*|process\.env.*|
 export function scanText(name, text) {
   const hits = [];
   text.split(/\r?\n/).forEach((line, i) => {
+    if (line.includes("scan:ok")) return; // قيمة تجربة وهمية معلّمة عن قصد
     for (const [re, label] of TOKEN_PATTERNS) {
       if (re.test(line)) hits.push(`${name}:${i + 1} ${label}`);
     }
