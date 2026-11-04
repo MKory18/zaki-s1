@@ -4,7 +4,11 @@ const PORT = 3217;
 
 export default defineConfig({
   testDir: "tests/e2e",
-  timeout: 30_000,
+  timeout: 60_000,
+  expect: { timeout: 10_000 },
+  globalSetup: "./tests/e2e/global-setup.ts",
+  // خادم تطوير واحد بحالة مشتركة (إعدادات البوابة والوكلاء): بنشغّل الاختبارات وراء بعض عشان ما تدوس على بعض
+  workers: 1,
   use: {
     baseURL: `http://127.0.0.1:${PORT}`,
     // محلياً ممكن PW_CHANNEL=msedge لو ما في كروميوم منزّل
