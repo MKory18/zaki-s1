@@ -80,9 +80,9 @@ export async function callModel(o: CallOptions): Promise<CallResult> {
 
   // السقوف: ميزانية الوكيل اليومية وعدد الاستدعاءات والسقف الشهري للكل. صفر = موقوف.
   const today = spentToday(o.agent, now);
-  const overDaily = agent.dailyBudgetMicro <= 0 || today.costMicro >= agent.dailyBudgetMicro;
+  const overDaily = !agent.unlimitedBudget && (agent.dailyBudgetMicro <= 0 || today.costMicro >= agent.dailyBudgetMicro);
   const overCalls = agent.maxCallsPerDay !== undefined && today.calls >= agent.maxCallsPerDay;
-  const overMonthly = cfg.monthlyBudgetMicro > 0 && spentThisMonth(now) >= cfg.monthlyBudgetMicro;
+  const overMonthly = !agent.unlimitedBudget && cfg.monthlyBudgetMicro > 0 && spentThisMonth(now) >= cfg.monthlyBudgetMicro;
   if (overDaily || overCalls || overMonthly) {
     const why = overMonthly ? "السقف الشهري" : overCalls ? "سقف الاستدعاءات" : "الميزانية اليومية";
     blocked("blocked_budget", chain[0], why);

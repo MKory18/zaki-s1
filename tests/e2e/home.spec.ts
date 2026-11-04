@@ -33,13 +33,17 @@ test("دخول المالك المحلي: بيشوف المستخدمين وتع
   // آخر مالك ما بينشال
   // الواجهة بتحتاج لحظة لتفعيل الأزرار، فبنعيد المحاولة لحد ما تستجيب
   await expect(async () => {
-    await page.getByRole("combobox", { name: /دور/ }).first().selectOption("viewer");
-    await page.getByRole("button", { name: "حفظ" }).first().click();
+    const row = page.locator("tr", { hasText: "مالك التطوير" });
+    await row.getByRole("combobox").selectOption("viewer");
+    await row.getByRole("button", { name: "حفظ" }).click();
     await expect(page.getByText("ما بينفع تشيل آخر مالك")).toBeVisible({ timeout: 1500 });
   }).toPass({ timeout: 15_000 });
 
   const audit = await page.request.get("/api/audit");
   expect(audit.status()).toBe(200);
   const body = await audit.json();
-  expect(body.entries.some((e: { action: string }) => e.action === "user.create")).toBe(true);
+  expect(Array.isArray(body.entries)).toBe(true);
+  // بلا قاعدة: التشغيل جديد فبنشوف إنشاء المالك. مع القاعدة: السجل بيضل من تشغيلات قبل، فبنتأكد من الشكل بس.
+  if (!process.env.DATABASE_URL) expect(body.entries.some((e: { action: string }) => e.action === "user.create")).toBe(true);
+  for (const e of body.entries.slice(0, 5)) expect(e).toMatchObject({ actorId: expect.any(String), action: expect.any(String), at: expect.any(String) });
 });

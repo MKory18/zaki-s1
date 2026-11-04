@@ -14,6 +14,8 @@ export default async function HomePage() {
       <nav className="row">
         {can(user.role, "settings.manage") && <Link href="/settings">الإعدادات</Link>}
         {can(user.role, "settings.manage") && <Link href="/libraries">المكتبات</Link>}
+        {can(user.role, "prompts.manage") && <Link href="/agents">الوكلاء</Link>}
+        {can(user.role, "prompts.manage") && <Link href="/prompts">مركز البرومبتات</Link>}
         {can(user.role, "prompts.manage") && <Link href="/gateway">بوابة الموديلات</Link>}
         {can(user.role, "users.manage") && <Link href="/users">المستخدمين والأدوار</Link>}
         {can(user.role, "settings.manage") && <Link href="/admin/db">فحص القاعدة</Link>}

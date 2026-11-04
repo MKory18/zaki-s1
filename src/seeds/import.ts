@@ -18,6 +18,22 @@ export function loadSeedData(path = join(process.cwd(), "prisma", "seeds", "seed
   return JSON.parse(readFileSync(path, "utf8"));
 }
 
+export function loadAgentsData(path = join(process.cwd(), "prisma", "seeds", "agents-data.json")): SeedData {
+  return JSON.parse(readFileSync(path, "utf8"));
+}
+
+// "1$" ← 1 · "0.5$" ← 0.5 · "داخلي" ← 0
+export function usdOf(raw: string): number {
+  const n = parseFloat(raw);
+  return Number.isFinite(n) ? n : 0;
+}
+
+// "500" ← 500 · "—" ← بلا سقف (رقم كبير)
+export function callsOf(raw: string): number {
+  const n = parseInt(raw, 10);
+  return Number.isFinite(n) ? n : 100_000;
+}
+
 const REVIEWED_AT = new Date("2026-10-01T00:00:00Z"); // تاريخ ملف البذور = «آخر مراجعة» لقواعد الإعلانات
 const dash = (s: string | null | undefined) => (!s || s === "—" ? null : s);
 
@@ -33,7 +49,7 @@ function rep(): LibraryReport {
   return { total: 0, created: 0, existing: 0 };
 }
 
-export async function importSeeds(db: PrismaClient, data: SeedData = loadSeedData()): Promise<SeedReport> {
+export async function importSeeds(db: PrismaClient, data: SeedData = loadSeedData(), agentsData: SeedData = loadAgentsData()): Promise<SeedReport> {
   const report: SeedReport = {};
   const lib = (name: string) => (report[name] ??= rep());
   const mark = (name: string, created: boolean) => {
@@ -166,6 +182,44 @@ export async function importSeeds(db: PrismaClient, data: SeedData = loadSeedDat
   await seedSetting("agents.budgets", { label: "ميزانيات الوكلاء اليومية (سقوف)", items: data.agentBudgets });
   for (const [name, items] of Object.entries(data.templates)) await seedSetting(`template.${name}`, { label: `قالب: ${name}`, items });
   await seedSetting("launch.checklist", { label: "قائمة حزمة الإطلاق", items: data.launchChecklist });
+  // درجات الموديلات: الأسماء الفعلية بتنحط من الإعدادات (أسماء الموديلات بتتغيّر بسرعة)
+  await seedSetting("agents.tiers", {
+    label: "درجات الموديلات: لكل درجة موديل أساسي وبديل (معرّفات موديلات البوابة)",
+    items: Object.fromEntries(["internal", "cheapest", "cheap", "medium", "strong", "kimi"].map((t) => [t, { primary: null, fallback: null }])),
+  });
+
+  // ── الوكلاء والبرومبتات (B05) ──
+  const budgetItems = data.agentBudgets as { agent: string; dailyRaw: string; callsRaw: string }[];
+  const budgetOf = (code: string) => {
+    const row = budgetItems.find((b) => b.agent.split(/[\s·]+/).includes(code) || b.agent.startsWith(code));
+    return { usd: usdOf(row?.dailyRaw ?? ""), calls: callsOf(row?.callsRaw ?? "") };
+  };
+  async function seedPrompt(code: string, nameAr: string, body: string, meta: unknown) {
+    const existing = await db.prompt.findUnique({ where: { code } });
+    if (existing) return { prompt: existing, created: false };
+    const prompt = await db.prompt.create({ data: { code, nameAr } });
+    const v = await db.promptVersion.create({ data: { promptId: prompt.id, version: 1, body, outputSchemaJson: meta as never, authorId: "seed", note: "من docs/06-prompts.md" } });
+    return { prompt: await db.prompt.update({ where: { id: prompt.id }, data: { activeVersionId: v.id } }), created: true };
+  }
+  const common = await seedPrompt("COMMON", "الرأس المشترك (بيتضاف قبل كل وكيل)", agentsData.commonHeader, { shape: null, example: null, textOutput: true, untrustedVars: [], variables: [] });
+  mark("prompts", common.created);
+  for (const a of agentsData.agents) {
+    const { prompt, created } = await seedPrompt(a.code, a.nameAr, a.body, {
+      shape: a.shape, example: a.example, textOutput: a.textOutput, untrustedVars: a.untrustedVars, variables: a.variables,
+    });
+    mark("prompts", created);
+    const found = await db.agent.findUnique({ where: { code: a.code } });
+    if (!found) {
+      const b = budgetOf(a.code);
+      await db.agent.create({
+        data: {
+          code: a.code, nameAr: a.nameAr, team: a.team, promptId: prompt.id, modelRoute: a.tier, fallbackRoute: a.fallbackTier,
+          tools: a.tools, dailyBudgetUsd: b.usd, maxCallsPerDay: b.calls, schedule: a.scheduleText, enabled: true,
+        },
+      });
+    }
+    mark("agents", !found);
+  }
 
   return report;
 }

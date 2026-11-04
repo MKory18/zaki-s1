@@ -25,6 +25,7 @@ export interface AgentRoute {
   maxTokens: number;
   dailyBudgetMicro: number; // صفر = موقوف
   maxCallsPerDay?: number;
+  unlimitedBudget?: boolean; // للموديلات الداخلية (تكلفتها صفر): ما بيتقيّد بالميزانية ولا بالسقف الشهري
 }
 
 export interface GatewayConfig {

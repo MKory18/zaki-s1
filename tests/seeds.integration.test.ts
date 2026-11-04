@@ -36,7 +36,7 @@ describe.skipIf(!has)("البذور والإعدادات على قاعدة حق�
     expect(await d.market.count()).toBe(2);
     expect(await d.testPage.count()).toBe(3);
     expect(await d.keyword.count()).toBe(18);
-    expect((await listSettings(d)).filter((s) => !s.key.startsWith("test.")).length).toBe(78);
+    expect((await listSettings(d)).filter((s) => !s.key.startsWith("test.") && !s.key.startsWith("gateway.")).length).toBe(79);
     expect(first.problems.total).toBe(22);
   });
 
