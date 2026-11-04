@@ -52,20 +52,20 @@ describe.skipIf(!has)("البذور والإعدادات على قاعدة حق�
       problems: await d.problem.count(),
       claims: await d.claimRule.count(),
       keywords: await d.keyword.count(),
-      creators: await d.setting.count({ where: { key: "reject.max_creators" } }),
+      edited: await d.setting.count({ where: { key: "schedule.weekly_report" } }),
     };
-    await setSetting(d, "reject.max_creators", { label: "أقصى عدد صنّاع", raw: "350" }, "owner-1");
+    await setSetting(d, "schedule.weekly_report", { label: "الأسبوعي", raw: "الأحد 11:00" }, "owner-1");
     const second = await importSeeds(d, data);
     for (const r of Object.values(second)) expect(r.created).toBe(0);
     expect(await d.problem.count()).toBe(before.problems);
     expect(await d.claimRule.count()).toBe(before.claims);
     expect(await d.keyword.count()).toBe(before.keywords);
     // إعادة الاستيراد ما أضافت نسخ: نسخة المالك الجديدة بس (باقي المفاتيح بتتغيّر من اختبارات تانية بنفس الوقت، فبنفحص المفتاح نفسه)
-    expect(await d.setting.count({ where: { key: "reject.max_creators" } })).toBe(before.creators + 1);
+    expect(await d.setting.count({ where: { key: "schedule.weekly_report" } })).toBe(before.edited + 1);
     expect(await d.setting.count({ where: { key: "velocity.w.age" } })).toBe(1);
-    expect(((await getSetting(d, "reject.max_creators"))!.value as { raw: string }).raw).toBe("350");
-    // نرجّع القيمة الأصلية عشان ما نوسّخ القاعدة لاختبارات تانية (الحدود بتأثر بحسابات الرفض)
-    await setSetting(d, "reject.max_creators", { label: "أقصى عدد صنّاع", raw: "400" }, "owner-1");
+    expect(((await getSetting(d, "schedule.weekly_report"))!.value as { raw: string }).raw).toBe("الأحد 11:00");
+    // نرجّع القيمة الأصلية (ومفتاح الجدولة ما بيقرأه اختبار تاني بنفس اللحظة، بعكس حدود الرفض)
+    await setSetting(d, "schedule.weekly_report", { label: "الأسبوعي", raw: "الأحد 10:00" }, "owner-1");
   });
 
   it("الإعدادات بنسخ: تعديل ← نسخة جديدة، رجوع ← نسخة جديدة بالقيمة القديمة", async () => {
