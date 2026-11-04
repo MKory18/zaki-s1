@@ -1,0 +1,1126 @@
+// نموذج بيانات سيستم 1 (docs/02-plan.md الجزء السابع).
+// أسماء الجداول والحقول بالإنجليزي لأنها كود. المبالغ Decimal، والتواريخ مع المنطقة، والحذف الناعم (deletedAt) للسجلات المهمة.
+// ولا حقل لبيانات شخصية لزبائن: التعليقات بتنعدّ بس، وعيّنة التعليقات بلا أسماء.
+// التضمينات (vector) بتنكتب وبتنقرا بـ SQL خام لأن Prisma ما بيدعمها مباشرة. البعد 1024.
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ───────────── الإنوم ─────────────
+
+enum Role {
+  owner
+  deputy
+  researcher
+  compliance
+  sharia
+  safety
+  viewer
+}
+
+enum CandidateLane {
+  china_early
+  regional_proven
+  manual
+}
+
+enum CandidateStatus {
+  new
+  scanned
+  held
+  shortlisted
+  verified
+  watching
+  deep_research
+  trend_lab
+  paid_test
+  launched
+  failed
+  rejected
+  archived
+}
+
+enum AccessMethod {
+  api
+  licensed
+  import
+  extension
+  kimi
+  manual
+  oms
+}
+
+enum TrustLevel {
+  high
+  medium
+  low
+}
+
+enum KeywordStatus {
+  proposed
+  approved
+}
+
+enum DnaOrigin {
+  oms
+  manual
+  researched
+}
+
+enum DecisionAction {
+  deep_research
+  watch
+  reject
+  trend_lab
+  paid_test
+  launch
+  fail
+}
+
+enum EconomicsKind {
+  projection
+  actual
+}
+
+enum ReadinessVerdict {
+  ready
+  conditional
+  not_ready
+}
+
+enum TextKind {
+  hadith
+  quran
+  heritage
+}
+
+enum ReviewStatus {
+  pending
+  approved
+  rejected
+  needs_specialist
+}
+
+enum IngredientStatus {
+  allowed
+  restricted
+  banned
+}
+
+enum ClaimAppliesTo {
+  cosmetic
+  therapeutic
+  all
+}
+
+enum ComplianceStage {
+  screen
+  full
+}
+
+enum ComplianceVerdict {
+  pass
+  pass_with_edits
+  needs_specialist
+  fail
+}
+
+enum BatchStatus {
+  pending
+  released
+  blocked
+}
+
+enum ProductPath {
+  ready_made
+  custom_formula
+}
+
+enum FormulationStatus {
+  draft
+  awaiting_safety
+  approved
+  rejected
+}
+
+enum DraftKind {
+  rfq
+  sample
+  followup
+}
+
+enum DraftStatus {
+  draft
+  sent_manually
+}
+
+enum TrademarkStatus {
+  pending
+  clear
+  conflict
+}
+
+enum PageStatus {
+  planned
+  created
+  warming
+  active
+  paused
+}
+
+enum TrendTestStatus {
+  planned
+  brief_sent
+  published
+  measuring
+  decided
+}
+
+enum MetricSnapshot {
+  h1
+  h24
+  h72
+  d7
+}
+
+enum OutboundStatus {
+  pending
+  ok
+  failed
+  dead
+}
+
+enum AgentRunStatus {
+  ok
+  failed
+  invalid_output
+  blocked_budget
+  timeout
+}
+
+enum AlertSeverity {
+  info
+  warning
+  critical
+}
+
+enum ReportKind {
+  morning
+  weekly
+  monthly
+}
+
+enum CaptureMode {
+  page
+  list
+}
+
+// ───────────── 1. البحث والمرشحين ─────────────
+
+model Candidate {
+  id                String                       @id @default(cuid())
+  createdAt         DateTime                     @default(now()) @db.Timestamptz(6)
+  updatedAt         DateTime                     @updatedAt @db.Timestamptz(6)
+  deletedAt         DateTime?                    @db.Timestamptz(6)
+  titleAr           String
+  titleSrc          String
+  problemId         String?
+  category          String?
+  lane              CandidateLane
+  status            CandidateStatus              @default(new)
+  velocityScore     Float?
+  dnaScore          Float?
+  closestRefId      String?
+  decisionSuggested DecisionAction?
+  decisionReason    String?
+  conflictFlag      Boolean                      @default(false)
+  outsideDna        Boolean                      @default(false)
+  firstSeenAt       DateTime                     @default(now()) @db.Timestamptz(6)
+  lastSeenAt        DateTime                     @default(now()) @db.Timestamptz(6)
+  sourcesCount      Int                          @default(0)
+  mainImageId       String?
+  textEmbedding     Unsupported("vector(1024)")?
+
+  problem          Problem?          @relation(fields: [problemId], references: [id])
+  closestRef       DnaReference?     @relation(fields: [closestRefId], references: [id])
+  observations     Observation[]
+  images           ImageAsset[]
+  scoreSnapshots   ScoreSnapshot[]
+  economics        EconomicsCalc[]
+  readiness        MarketReadiness[]
+  decisions        Decision[]
+  complianceChecks ComplianceCheck[]
+  productFile      ProductFile?
+
+  @@index([status])
+  @@index([lane, status])
+  @@index([problemId])
+  @@index([deletedAt])
+}
+
+model Observation {
+  id                  String       @id @default(cuid())
+  createdAt           DateTime     @default(now()) @db.Timestamptz(6)
+  updatedAt           DateTime     @updatedAt @db.Timestamptz(6)
+  candidateId         String
+  source              String
+  accessMethod        AccessMethod
+  url                 String?
+  market              String?
+  capturedAt          DateTime     @default(now()) @db.Timestamptz(6)
+  capturedBy          String?
+  snapshotKey         String?
+  extractedJson       Json?
+  signalsJson         Json?
+  price               Decimal?     @db.Decimal(14, 4)
+  currency            String?
+  sales               Int?
+  reviews             Int?
+  rating              Float?
+  listingAgeDays      Int?
+  adStartDate         DateTime?    @db.Timestamptz(6)
+  adVersions          Int?
+  adCountries         Json?
+  advertisersInMarket Int?
+  creators            Int?
+  newCreators7d       Int?
+  newCreatorsPrev7d   Int?
+  intentComments      Int?
+  skepticComments     Int?
+  commentSample       Json?
+  engagementRate      Float?
+  yellowCartShare     Float?
+  cumulativeSales     Int?
+  trust               TrustLevel?
+  dedupeHash          String?
+
+  candidate Candidate    @relation(fields: [candidateId], references: [id])
+  images    ImageAsset[]
+
+  @@index([candidateId])
+  @@index([source, capturedAt])
+  @@index([dedupeHash])
+}
+
+model ImageAsset {
+  id             String                       @id @default(cuid())
+  createdAt      DateTime                     @default(now()) @db.Timestamptz(6)
+  updatedAt      DateTime                     @updatedAt @db.Timestamptz(6)
+  candidateId    String
+  observationId  String?
+  storageKey     String
+  phash          String?
+  imageEmbedding Unsupported("vector(1024)")?
+  sourceUrl      String?
+
+  candidate   Candidate    @relation(fields: [candidateId], references: [id])
+  observation Observation? @relation(fields: [observationId], references: [id])
+
+  @@index([candidateId])
+  @@index([phash])
+}
+
+model Problem {
+  id            String   @id @default(cuid())
+  createdAt     DateTime @default(now()) @db.Timestamptz(6)
+  updatedAt     DateTime @updatedAt @db.Timestamptz(6)
+  nameAr        String
+  form          String?
+  ingredients   Json?
+  expectedClass String?
+  adSensitivity String?
+  keywordsAr    String[]
+  keywordsEn    String[]
+  keywordsZh    String[]
+
+  candidates Candidate[]
+  keywords   Keyword[]
+}
+
+model Market {
+  id           String   @id @default(cuid())
+  createdAt    DateTime @default(now()) @db.Timestamptz(6)
+  updatedAt    DateTime @updatedAt @db.Timestamptz(6)
+  code         String   @unique
+  nameAr       String
+  currency     String
+  settingsJson Json
+}
+
+model Keyword {
+  id        String        @id @default(cuid())
+  createdAt DateTime      @default(now()) @db.Timestamptz(6)
+  updatedAt DateTime      @updatedAt @db.Timestamptz(6)
+  text      String
+  lang      String
+  problemId String?
+  source    String
+  status    KeywordStatus @default(proposed)
+
+  problem Problem? @relation(fields: [problemId], references: [id])
+
+  @@unique([text, lang])
+  @@index([problemId])
+}
+
+// ───────────── 2. الحمض والحساب والقرار ─────────────
+
+model DnaReference {
+  id              String    @id @default(cuid())
+  createdAt       DateTime  @default(now()) @db.Timestamptz(6)
+  updatedAt       DateTime  @updatedAt @db.Timestamptz(6)
+  deletedAt       DateTime? @db.Timestamptz(6)
+  name            String
+  origin          DnaOrigin
+  productRef      String?
+  traitsJson      Json
+  performanceJson Json?
+  approvedBy      String?
+  active          Boolean   @default(true)
+
+  candidates Candidate[]
+}
+
+model DnaProfile {
+  id          String   @id @default(cuid())
+  createdAt   DateTime @default(now()) @db.Timestamptz(6)
+  updatedAt   DateTime @updatedAt @db.Timestamptz(6)
+  ownerType   String // candidate | reference
+  ownerId     String
+  traitsJson  Json
+  filledBy    String?
+  confirmedBy String?
+
+  @@unique([ownerType, ownerId])
+}
+
+model DnaWeightSet {
+  id              String   @id @default(cuid())
+  createdAt       DateTime @default(now()) @db.Timestamptz(6)
+  updatedAt       DateTime @updatedAt @db.Timestamptz(6)
+  version         Int      @unique
+  weightsJson     Json
+  priorsJson      Json
+  sampleSizesJson Json
+  learnedAt       DateTime @default(now()) @db.Timestamptz(6)
+  productsCount   Int
+}
+
+model ScoreSnapshot {
+  id             String   @id @default(cuid())
+  createdAt      DateTime @default(now()) @db.Timestamptz(6)
+  updatedAt      DateTime @updatedAt @db.Timestamptz(6)
+  candidateId    String
+  velocityJson   Json
+  dnaJson        Json
+  similarityJson Json
+  rulesVersion   String
+  computedAt     DateTime @default(now()) @db.Timestamptz(6)
+
+  candidate Candidate @relation(fields: [candidateId], references: [id])
+
+  @@index([candidateId, computedAt])
+}
+
+model EconomicsCalc {
+  id             String        @id @default(cuid())
+  createdAt      DateTime      @default(now()) @db.Timestamptz(6)
+  updatedAt      DateTime      @updatedAt @db.Timestamptz(6)
+  candidateId    String
+  market         String
+  inputsJson     Json
+  lossLimit      Decimal       @db.Decimal(14, 4)
+  cpaCeiling     Decimal       @db.Decimal(14, 4)
+  scalingCeiling Decimal       @db.Decimal(14, 4)
+  scenariosJson  Json
+  kind           EconomicsKind
+  computedAt     DateTime      @default(now()) @db.Timestamptz(6)
+
+  candidate Candidate @relation(fields: [candidateId], references: [id])
+
+  @@index([candidateId, market])
+}
+
+model MarketReadiness {
+  id          String           @id @default(cuid())
+  createdAt   DateTime         @default(now()) @db.Timestamptz(6)
+  updatedAt   DateTime         @updatedAt @db.Timestamptz(6)
+  candidateId String
+  market      String
+  factorsJson Json
+  verdict     ReadinessVerdict
+  conditions  String?
+
+  candidate Candidate @relation(fields: [candidateId], references: [id])
+
+  @@index([candidateId, market])
+}
+
+model Decision {
+  id           String         @id @default(cuid())
+  createdAt    DateTime       @default(now()) @db.Timestamptz(6)
+  updatedAt    DateTime       @updatedAt @db.Timestamptz(6)
+  candidateId  String
+  actorId      String
+  action       DecisionAction
+  reasonCode   String?
+  reasonText   String?
+  fromTelegram Boolean        @default(false)
+
+  candidate Candidate @relation(fields: [candidateId], references: [id])
+
+  @@index([candidateId, createdAt])
+}
+
+model RejectReason {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now()) @db.Timestamptz(6)
+  updatedAt DateTime @updatedAt @db.Timestamptz(6)
+  code      String   @unique
+  labelAr   String
+}
+
+// ───────────── 3. الامتثال والجودة ─────────────
+
+model ReferenceText {
+  id           String       @id @default(cuid())
+  createdAt    DateTime     @default(now()) @db.Timestamptz(6)
+  updatedAt    DateTime     @updatedAt @db.Timestamptz(6)
+  deletedAt    DateTime?    @db.Timestamptz(6)
+  code         String       @unique
+  kind         TextKind
+  ingredient   String?
+  text         String
+  source       String
+  number       String?
+  grading      String?
+  reviewStatus ReviewStatus @default(pending)
+  reviewerId   String?
+  reviewedAt   DateTime?    @db.Timestamptz(6)
+  usageRule    String?
+
+  @@index([reviewStatus])
+}
+
+model Ingredient {
+  id               String           @id @default(cuid())
+  createdAt        DateTime         @default(now()) @db.Timestamptz(6)
+  updatedAt        DateTime         @updatedAt @db.Timestamptz(6)
+  deletedAt        DateTime?        @db.Timestamptz(6)
+  nameAr           String
+  nameEn           String?
+  inci             String?
+  origin           String?
+  heritageRefId    String?
+  status           IngredientStatus
+  note             String?
+  adulterationRisk String?
+
+  @@index([status])
+}
+
+model ClaimRule {
+  id          String         @id @default(cuid())
+  createdAt   DateTime       @default(now()) @db.Timestamptz(6)
+  updatedAt   DateTime       @updatedAt @db.Timestamptz(6)
+  deletedAt   DateTime?      @db.Timestamptz(6)
+  phrase      String
+  reason      String
+  alternative String?
+  appliesTo   ClaimAppliesTo @default(all)
+  country     String?
+}
+
+model AdPolicyRule {
+  id             String   @id @default(cuid())
+  createdAt      DateTime @default(now()) @db.Timestamptz(6)
+  updatedAt      DateTime @updatedAt @db.Timestamptz(6)
+  platform       String
+  rule           String
+  wrongExample   String?
+  rightExample   String?
+  lastReviewedAt DateTime @db.Timestamptz(6)
+}
+
+model ComplianceCheck {
+  id              String             @id @default(cuid())
+  createdAt       DateTime           @default(now()) @db.Timestamptz(6)
+  updatedAt       DateTime           @updatedAt @db.Timestamptz(6)
+  candidateId     String
+  stage           ComplianceStage
+  classification  String?
+  checksJson      Json
+  verdict         ComplianceVerdict
+  reasons         Json?
+  agentRunId      String?
+  humanReviewerId String?
+  humanVerdict    ComplianceVerdict?
+
+  candidate Candidate @relation(fields: [candidateId], references: [id])
+
+  @@index([candidateId, stage])
+}
+
+model Batch {
+  id                 String      @id @default(cuid())
+  createdAt          DateTime    @default(now()) @db.Timestamptz(6)
+  updatedAt          DateTime    @updatedAt @db.Timestamptz(6)
+  deletedAt          DateTime?   @db.Timestamptz(6)
+  productRef         String
+  supplierId         String?
+  batchNo            String
+  qty                Int
+  producedAt         DateTime?   @db.Timestamptz(6)
+  expiresAt          DateTime?   @db.Timestamptz(6)
+  coaKey             String?
+  independentTestKey String?
+  sterile            Boolean?
+  status             BatchStatus @default(pending)
+  notes              String?
+
+  supplier Supplier? @relation(fields: [supplierId], references: [id])
+
+  @@unique([productRef, batchNo])
+}
+
+model License {
+  id         String    @id @default(cuid())
+  createdAt  DateTime  @default(now()) @db.Timestamptz(6)
+  updatedAt  DateTime  @updatedAt @db.Timestamptz(6)
+  deletedAt  DateTime? @db.Timestamptz(6)
+  productRef String
+  country    String
+  authority  String
+  type       String
+  regNo      String?
+  issuedAt   DateTime? @db.Timestamptz(6)
+  expiresAt  DateTime? @db.Timestamptz(6)
+  status     String
+  alertDays  Int       @default(60)
+
+  @@index([expiresAt])
+}
+
+// ───────────── 4. الصناعة ─────────────
+
+model ProductFile {
+  id          String      @id @default(cuid())
+  createdAt   DateTime    @default(now()) @db.Timestamptz(6)
+  updatedAt   DateTime    @updatedAt @db.Timestamptz(6)
+  deletedAt   DateTime?   @db.Timestamptz(6)
+  candidateId String      @unique
+  path        ProductPath
+  status      String
+  ownerId     String
+
+  candidate    Candidate          @relation(fields: [candidateId], references: [id])
+  formulations FormulationBrief[]
+  quotes       Quote[]
+  samples      Sample[]
+  brands       BrandBrief[]
+  trendTests   TrendTest[]
+  launchPacks  LaunchPack[]
+}
+
+model FormulationBrief {
+  id               String            @id @default(cuid())
+  createdAt        DateTime          @default(now()) @db.Timestamptz(6)
+  updatedAt        DateTime          @updatedAt @db.Timestamptz(6)
+  deletedAt        DateTime?         @db.Timestamptz(6)
+  productFileId    String
+  problem          String
+  form             String
+  ingredientsJson  Json
+  packSize         String?
+  allowedClaims    Json
+  questions        Json
+  status           FormulationStatus @default(draft)
+  safetyAssessorId String?
+  decidedAt        DateTime?         @db.Timestamptz(6)
+
+  productFile ProductFile @relation(fields: [productFileId], references: [id])
+
+  @@index([productFileId])
+  @@index([status])
+}
+
+model Supplier {
+  id              String    @id @default(cuid())
+  createdAt       DateTime  @default(now()) @db.Timestamptz(6)
+  updatedAt       DateTime  @updatedAt @db.Timestamptz(6)
+  deletedAt       DateTime? @db.Timestamptz(6)
+  name            String
+  country         String
+  platform        String?
+  contactBusiness String?
+  coaCapable      Boolean   @default(false)
+  score           Float?
+  notes           String?
+
+  quotes  Quote[]
+  samples Sample[]
+  drafts  DraftMessage[]
+  batches Batch[]
+}
+
+model Quote {
+  id            String    @id @default(cuid())
+  createdAt     DateTime  @default(now()) @db.Timestamptz(6)
+  updatedAt     DateTime  @updatedAt @db.Timestamptz(6)
+  supplierId    String
+  productFileId String
+  price         Decimal   @db.Decimal(14, 4)
+  currency      String
+  moq           Int
+  leadTimeDays  Int
+  validUntil    DateTime? @db.Timestamptz(6)
+
+  supplier    Supplier    @relation(fields: [supplierId], references: [id])
+  productFile ProductFile @relation(fields: [productFileId], references: [id])
+
+  @@index([productFileId])
+}
+
+model Sample {
+  id            String    @id @default(cuid())
+  createdAt     DateTime  @default(now()) @db.Timestamptz(6)
+  updatedAt     DateTime  @updatedAt @db.Timestamptz(6)
+  supplierId    String
+  productFileId String
+  requestedAt   DateTime? @db.Timestamptz(6)
+  receivedAt    DateTime? @db.Timestamptz(6)
+  ratingsJson   Json?
+  verdict       String?
+
+  supplier    Supplier    @relation(fields: [supplierId], references: [id])
+  productFile ProductFile @relation(fields: [productFileId], references: [id])
+
+  @@index([productFileId])
+}
+
+model DraftMessage {
+  id         String      @id @default(cuid())
+  createdAt  DateTime    @default(now()) @db.Timestamptz(6)
+  updatedAt  DateTime    @updatedAt @db.Timestamptz(6)
+  kind       DraftKind
+  supplierId String?
+  body       String
+  status     DraftStatus @default(draft)
+
+  supplier Supplier? @relation(fields: [supplierId], references: [id])
+}
+
+model BrandBrief {
+  id              String          @id @default(cuid())
+  createdAt       DateTime        @default(now()) @db.Timestamptz(6)
+  updatedAt       DateTime        @updatedAt @db.Timestamptz(6)
+  deletedAt       DateTime?       @db.Timestamptz(6)
+  productFileId   String
+  namesJson       Json
+  chosenName      String?
+  trademarkStatus TrademarkStatus @default(pending)
+  positioning     String?
+  edge            String?
+  palette         Json?
+  font            String?
+  labelText       String?
+  trustElements   Json?
+  originStory     String?
+  status          String
+
+  productFile ProductFile @relation(fields: [productFileId], references: [id])
+
+  @@index([productFileId])
+}
+
+model BrandRegistry {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now()) @db.Timestamptz(6)
+  updatedAt DateTime @updatedAt @db.Timestamptz(6)
+  name      String
+  notes     String?
+  assetsKey String?
+}
+
+// ───────────── 5. مختبر الترند ─────────────
+
+model TestPage {
+  id              String     @id @default(cuid())
+  createdAt       DateTime   @default(now()) @db.Timestamptz(6)
+  updatedAt       DateTime   @updatedAt @db.Timestamptz(6)
+  deletedAt       DateTime?  @db.Timestamptz(6)
+  name            String
+  platform        String
+  focus           String?
+  status          PageStatus @default(planned)
+  businessAccount Boolean    @default(true)
+  lastPostAt      DateTime?  @db.Timestamptz(6)
+
+  angles  TrendAngle[]
+  metrics VideoMetric[]
+}
+
+model TrendTest {
+  id                String          @id @default(cuid())
+  createdAt         DateTime        @default(now()) @db.Timestamptz(6)
+  updatedAt         DateTime        @updatedAt @db.Timestamptz(6)
+  deletedAt         DateTime?       @db.Timestamptz(6)
+  productFileId     String
+  status            TrendTestStatus @default(planned)
+  productionBriefId String?
+  startedAt         DateTime?       @db.Timestamptz(6)
+  decidedAt         DateTime?       @db.Timestamptz(6)
+  winnerAngle       String?
+  graduate          Boolean         @default(false)
+
+  productFile ProductFile   @relation(fields: [productFileId], references: [id])
+  angles      TrendAngle[]
+  metrics     VideoMetric[]
+
+  @@index([productFileId])
+}
+
+model TrendAngle {
+  id          String   @id @default(cuid())
+  createdAt   DateTime @default(now()) @db.Timestamptz(6)
+  updatedAt   DateTime @updatedAt @db.Timestamptz(6)
+  trendTestId String
+  code        String
+  angle       String
+  hook        String?
+  pattern     String?
+  pageId      String?
+
+  trendTest TrendTest     @relation(fields: [trendTestId], references: [id])
+  page      TestPage?     @relation(fields: [pageId], references: [id])
+  metrics   VideoMetric[]
+
+  @@unique([trendTestId, code])
+}
+
+model VideoMetric {
+  id             String         @id @default(cuid())
+  createdAt      DateTime       @default(now()) @db.Timestamptz(6)
+  updatedAt      DateTime       @updatedAt @db.Timestamptz(6)
+  trendTestId    String
+  angleId        String
+  videoRef       String
+  pageId         String?
+  snapshot       MetricSnapshot
+  reach          Int
+  avgWatchPct    Float
+  shares         Int
+  saves          Int
+  comments       Int
+  intentComments Int
+  messages       Int
+  trendScore     Float?
+
+  trendTest TrendTest  @relation(fields: [trendTestId], references: [id])
+  angle     TrendAngle @relation(fields: [angleId], references: [id])
+  page      TestPage?  @relation(fields: [pageId], references: [id])
+
+  @@unique([videoRef, snapshot])
+  @@index([trendTestId])
+}
+
+// ───────────── 6. الإطلاق والربط ─────────────
+
+model LaunchPack {
+  id            String   @id @default(cuid())
+  createdAt     DateTime @default(now()) @db.Timestamptz(6)
+  updatedAt     DateTime @updatedAt @db.Timestamptz(6)
+  productFileId String
+  partsJson     Json
+  status        String
+
+  productFile ProductFile @relation(fields: [productFileId], references: [id])
+
+  @@index([productFileId])
+}
+
+model OutboundRequest {
+  id             String         @id @default(cuid())
+  createdAt      DateTime       @default(now()) @db.Timestamptz(6)
+  updatedAt      DateTime       @updatedAt @db.Timestamptz(6)
+  system         String
+  endpoint       String
+  idempotencyKey String         @unique
+  payloadJson    Json
+  attempts       Int            @default(0)
+  status         OutboundStatus @default(pending)
+  responseCode   Int?
+  responseJson   Json?
+  nextRetryAt    DateTime?      @db.Timestamptz(6)
+
+  @@index([status, nextRetryAt])
+}
+
+model InboundEvent {
+  id          String    @id @default(cuid())
+  createdAt   DateTime  @default(now()) @db.Timestamptz(6)
+  updatedAt   DateTime  @updatedAt @db.Timestamptz(6)
+  system      String
+  eventType   String
+  signatureOk Boolean
+  payloadJson Json
+  processedAt DateTime? @db.Timestamptz(6)
+  error       String?
+
+  @@index([system, eventType])
+}
+
+// ───────────── 7. الوكلاء والموديلات ─────────────
+
+model Agent {
+  id             String    @id @default(cuid())
+  createdAt      DateTime  @default(now()) @db.Timestamptz(6)
+  updatedAt      DateTime  @updatedAt @db.Timestamptz(6)
+  deletedAt      DateTime? @db.Timestamptz(6)
+  code           String    @unique
+  nameAr         String
+  team           String
+  promptId       String
+  modelRoute     String
+  fallbackRoute  String?
+  tools          Json
+  dailyBudgetUsd Decimal   @db.Decimal(10, 4)
+  maxCallsPerDay Int
+  schedule       String?
+  enabled        Boolean   @default(true)
+
+  prompt Prompt @relation(fields: [promptId], references: [id])
+}
+
+model Prompt {
+  id              String    @id @default(cuid())
+  createdAt       DateTime  @default(now()) @db.Timestamptz(6)
+  updatedAt       DateTime  @updatedAt @db.Timestamptz(6)
+  deletedAt       DateTime? @db.Timestamptz(6)
+  code            String    @unique
+  nameAr          String
+  activeVersionId String?
+
+  versions PromptVersion[]
+  agents   Agent[]
+}
+
+model PromptVersion {
+  id               String   @id @default(cuid())
+  createdAt        DateTime @default(now()) @db.Timestamptz(6)
+  updatedAt        DateTime @updatedAt @db.Timestamptz(6)
+  promptId         String
+  version          Int
+  body             String
+  outputSchemaJson Json
+  authorId         String?
+  note             String?
+
+  prompt Prompt @relation(fields: [promptId], references: [id])
+
+  @@unique([promptId, version])
+}
+
+model AgentRun {
+  id              String         @id @default(cuid())
+  createdAt       DateTime       @default(now()) @db.Timestamptz(6)
+  updatedAt       DateTime       @updatedAt @db.Timestamptz(6)
+  agentCode       String
+  promptVersionId String?
+  inputRef        String?
+  outputJson      Json?
+  model           String
+  tokensIn        Int            @default(0)
+  tokensOut       Int            @default(0)
+  costUsd         Decimal        @db.Decimal(12, 6)
+  durationMs      Int            @default(0)
+  status          AgentRunStatus
+  error           String?
+
+  @@index([agentCode, createdAt])
+}
+
+model ModelProvider {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now()) @db.Timestamptz(6)
+  updatedAt DateTime @updatedAt @db.Timestamptz(6)
+  name      String   @unique
+  baseUrl   String
+  keyRef    String // اسم متغيّر البيئة، مش القيمة
+  enabled   Boolean  @default(true)
+
+  routes ModelRoute[]
+}
+
+model ModelRoute {
+  id          String   @id @default(cuid())
+  createdAt   DateTime @default(now()) @db.Timestamptz(6)
+  updatedAt   DateTime @updatedAt @db.Timestamptz(6)
+  providerId  String
+  model       String
+  priceIn     Decimal  @db.Decimal(12, 6)
+  priceOut    Decimal  @db.Decimal(12, 6)
+  maxTokens   Int
+  temperature Float
+
+  provider ModelProvider @relation(fields: [providerId], references: [id])
+
+  @@unique([providerId, model])
+}
+
+// ───────────── 8. النظام ─────────────
+
+model User {
+  id        String    @id @default(cuid())
+  createdAt DateTime  @default(now()) @db.Timestamptz(6)
+  updatedAt DateTime  @updatedAt @db.Timestamptz(6)
+  deletedAt DateTime? @db.Timestamptz(6)
+  oidcSub   String    @unique
+  nameAr    String
+  role      Role      @default(viewer)
+  active    Boolean   @default(true)
+
+  devices ExtensionDevice[]
+  threads ConsultantThread[]
+}
+
+model Setting {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now()) @db.Timestamptz(6)
+  updatedAt DateTime @updatedAt @db.Timestamptz(6)
+  key       String
+  valueJson Json
+  version   Int
+  updatedBy String?
+
+  @@unique([key, version])
+  @@index([key])
+}
+
+model Alert {
+  id        String        @id @default(cuid())
+  createdAt DateTime      @default(now()) @db.Timestamptz(6)
+  updatedAt DateTime      @updatedAt @db.Timestamptz(6)
+  type      String
+  severity  AlertSeverity
+  message   String
+  link      String?
+  channels  Json
+  ackBy     String?
+  ackAt     DateTime?     @db.Timestamptz(6)
+
+  @@index([severity, ackAt])
+}
+
+model Report {
+  id        String     @id @default(cuid())
+  createdAt DateTime   @default(now()) @db.Timestamptz(6)
+  updatedAt DateTime   @updatedAt @db.Timestamptz(6)
+  kind      ReportKind
+  period    String
+  dataJson  Json
+  text      String
+  sentAt    DateTime?  @db.Timestamptz(6)
+
+  @@unique([kind, period])
+}
+
+model AuditLog {
+  id         String   @id @default(cuid())
+  createdAt  DateTime @default(now()) @db.Timestamptz(6)
+  updatedAt  DateTime @updatedAt @db.Timestamptz(6)
+  actorId    String
+  action     String
+  entity     String
+  entityId   String?
+  beforeJson Json?
+  afterJson  Json?
+
+  @@index([entity, entityId])
+  @@index([actorId, createdAt])
+}
+
+model ExtensionDevice {
+  id         String    @id @default(cuid())
+  createdAt  DateTime  @default(now()) @db.Timestamptz(6)
+  updatedAt  DateTime  @updatedAt @db.Timestamptz(6)
+  userId     String
+  name       String
+  tokenHash  String    @unique // الخادم بيحفظ بصمة التوكن بس
+  lastSeenAt DateTime? @db.Timestamptz(6)
+  active     Boolean   @default(true)
+
+  user User @relation(fields: [userId], references: [id])
+}
+
+model SelectorSet {
+  id            String   @id @default(cuid())
+  createdAt     DateTime @default(now()) @db.Timestamptz(6)
+  updatedAt     DateTime @updatedAt @db.Timestamptz(6)
+  site          String
+  version       Int
+  selectorsJson Json
+  active        Boolean  @default(false)
+
+  @@unique([site, version])
+}
+
+model CaptureJob {
+  id            String      @id @default(cuid())
+  createdAt     DateTime    @default(now()) @db.Timestamptz(6)
+  updatedAt     DateTime    @updatedAt @db.Timestamptz(6)
+  deviceId      String
+  site          String
+  url           String
+  mode          CaptureMode
+  status        String
+  error         String?
+  observationId String?
+
+  @@index([status])
+}
+
+model ImportJob {
+  id          String   @id @default(cuid())
+  createdAt   DateTime @default(now()) @db.Timestamptz(6)
+  updatedAt   DateTime @updatedAt @db.Timestamptz(6)
+  source      String
+  fileKey     String
+  mappingJson Json
+  rows        Int      @default(0)
+  ok          Int      @default(0)
+  failed      Int      @default(0)
+  status      String
+}
+
+model ConsultantThread {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now()) @db.Timestamptz(6)
+  updatedAt DateTime @updatedAt @db.Timestamptz(6)
+  userId    String
+  title     String
+
+  user     User                @relation(fields: [userId], references: [id])
+  messages ConsultantMessage[]
+}
+
+model ConsultantMessage {
+  id            String   @id @default(cuid())
+  createdAt     DateTime @default(now()) @db.Timestamptz(6)
+  updatedAt     DateTime @updatedAt @db.Timestamptz(6)
+  threadId      String
+  role          String
+  content       String
+  citationsJson Json?
+  draftRef      String?
+
+  thread ConsultantThread @relation(fields: [threadId], references: [id])
+
+  @@index([threadId, createdAt])
+}
