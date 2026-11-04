@@ -36,7 +36,7 @@ describe.skipIf(!has)("البذور والإعدادات على قاعدة حق�
     expect(await d.market.count()).toBe(2);
     expect(await d.testPage.count()).toBe(3);
     expect(await d.keyword.count()).toBe(18);
-    expect((await listSettings(d)).filter((s) => !s.key.startsWith("test.") && !s.key.startsWith("gateway.")).length).toBe(87);
+    expect((await listSettings(d)).filter((s) => !s.key.startsWith("test.") && !s.key.startsWith("gateway.")).length).toBe(88);
     expect(first.problems.total).toBe(22);
   });
 
@@ -64,6 +64,8 @@ describe.skipIf(!has)("البذور والإعدادات على قاعدة حق�
     expect(await d.setting.count({ where: { key: "reject.max_creators" } })).toBe(before.creators + 1);
     expect(await d.setting.count({ where: { key: "velocity.w.age" } })).toBe(1);
     expect(((await getSetting(d, "reject.max_creators"))!.value as { raw: string }).raw).toBe("350");
+    // نرجّع القيمة الأصلية عشان ما نوسّخ القاعدة لاختبارات تانية (الحدود بتأثر بحسابات الرفض)
+    await setSetting(d, "reject.max_creators", { label: "أقصى عدد صنّاع", raw: "400" }, "owner-1");
   });
 
   it("الإعدادات بنسخ: تعديل ← نسخة جديدة، رجوع ← نسخة جديدة بالقيمة القديمة", async () => {

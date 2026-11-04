@@ -3,6 +3,8 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import type { PrismaClient } from "@/generated/prisma/client";
+import { serializeBands } from "@/core/config";
+import { DEFAULT_BANDS } from "@/core/velocity";
 
 export interface LibraryReport {
   total: number;
@@ -182,6 +184,8 @@ export async function importSeeds(db: PrismaClient, data: SeedData = loadSeedDat
   await seedSetting("agents.budgets", { label: "ميزانيات الوكلاء اليومية (سقوف)", items: data.agentBudgets });
   for (const [name, items] of Object.entries(data.templates)) await seedSetting(`template.${name}`, { label: `قالب: ${name}`, items });
   await seedSetting("launch.checklist", { label: "قائمة حزمة الإطلاق", items: data.launchChecklist });
+  // شرائح درجات إشارات مؤشر السرعة (docs/01-logic.md الجزء الرابع، قسم 5): جداول قابلة للتعديل
+  await seedSetting("velocity.bands", { label: "شرائح درجات إشارات مؤشر السرعة (الحد اللانهائي = null)", items: serializeBands(DEFAULT_BANDS) });
   // وضع الربط لكل نظام: وهمي (الافتراضي) أو حقيقي. العناوين والتوكنات بـ .env بس.
   for (const [sys, name] of Object.entries({ oms: "الـ OMS", production: "نظام الإنتاج", mediabuyer: "الميديا باير", finance: "المالية", workspace: "مساحة العمل", tasks: "نظام المهام", clipper: "الكليبر", crisis: "الأزمات" })) {
     await seedSetting(`integration.${sys}`, { label: `وضع الربط مع ${name} (mock = وهمي، real = حقيقي)`, raw: "mock" });
