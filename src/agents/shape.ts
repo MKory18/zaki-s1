@@ -19,6 +19,15 @@ function checkLeaf(shape: string, value: unknown): boolean {
         return value === null;
       case "YYYY-MM-DD":
         return typeof value === "string" && DATE.test(value);
+      // أنواع العقود بين الأنظمة (docs/05-integration.md الجزء الرابع)
+      case "money": // نص عشري بخانتين ("20.00")
+        return typeof value === "string" && /^\d+\.\d{2}$/.test(value);
+      case "country": // رمز حرفين (SY · JO)
+        return typeof value === "string" && /^[A-Z]{2}$/.test(value);
+      case "currency": // رمز ثلاثي (USD · JOD)
+        return typeof value === "string" && /^[A-Z]{3}$/.test(value);
+      case "datetime": // ISO 8601 مع المنطقة الزمنية
+        return typeof value === "string" && /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(:\d{2}(\.\d+)?)?(Z|[+-]\d{2}:\d{2})$/.test(value);
       default:
         // وصف لمعرّف ("obs_id") = أي نص. غيره قيمة ثابتة (enum)
         if (/^[a-z]+_id$/.test(opt)) return typeof value === "string" && value.length > 0;

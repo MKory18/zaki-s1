@@ -81,6 +81,7 @@ export const SETTING_TABS = [
   { id: "markets", label: "الأسواق", prefixes: ["market."] },
   { id: "schedule", label: "الجدولة", prefixes: ["schedule."] },
   { id: "budgets", label: "الميزانيات", prefixes: ["agents."] },
+  { id: "integration", label: "الربط", prefixes: ["integration."] },
   { id: "templates", label: "القوالب", prefixes: ["template.", "launch.", "costs.", "compliance."] },
 ] as const;
 
