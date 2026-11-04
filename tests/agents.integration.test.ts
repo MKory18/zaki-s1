@@ -3,7 +3,7 @@ import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { getDb } from "../src/lib/db";
 import { importSeeds } from "../src/seeds/import";
 import { setSetting } from "../src/lib/settings";
-import { setGatewayConfig } from "../src/gateway/config";
+import { saveGatewayConfig } from "../src/gateway/store";
 import { AgentRunError } from "../src/agents/runner";
 import { createVersion, lineDiff, listRuns, loadAgent, rollbackVersion, runAgent } from "../src/agents/service";
 import { validateShape } from "../src/agents/shape";
@@ -26,12 +26,13 @@ describe.skipIf(!has)("الوكلاء والبرومبتات على قاعدة �
 
   beforeAll(async () => {
     seeded = await importSeeds(db());
-    setGatewayConfig({
+    // بنحفظها بالقاعدة (مش بالذاكرة بس): غير هيك المشغّل بيقرا الإعدادات المحفوظة من تشغيلات قبل وبيدوس عليها
+    await saveGatewayConfig(db(), {
       providers: [{ id: "fk", name: "وهمي", baseUrl: "https://fake.test/v1", keyEnv: "FAKE_KEY", enabled: true, internal: false }],
       models: [{ id: "m-fk", providerId: "fk", model: "fake-1", priceInPerMTok: 500_000, priceOutPerMTok: 1_000_000 }],
       agents: [],
       monthlyBudgetMicro: 100_000_000,
-    });
+    }, "test");
     await setSetting(db(), "agents.tiers", { label: "درجات", items: { cheapest: { primary: "m-fk" }, cheap: { primary: "m-fk" }, strong: { primary: "m-fk" } } }, "test");
     await db().agent.update({ where: { code: "A06" }, data: { enabled: true, dailyBudgetUsd: 1 } });
     resetAlertsForTests();
