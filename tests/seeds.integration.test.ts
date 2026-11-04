@@ -35,8 +35,8 @@ describe.skipIf(!has)("البذور والإعدادات على قاعدة حق�
     expect(await d.brandRegistry.count()).toBe(6);
     expect(await d.market.count()).toBe(2);
     expect(await d.testPage.count()).toBe(3);
-    expect(await d.keyword.count()).toBe(18);
-    expect((await listSettings(d)).filter((s) => !s.key.startsWith("test.") && !s.key.startsWith("gateway.")).length).toBe(88);
+    expect(await d.keyword.count({ where: { source: "seed:trend" } })).toBe(18); // كلمات الترند المبذورة (غيرها بتنضاف من اختبارات المصادر)
+    expect((await listSettings(d)).filter((s) => !s.key.startsWith("test.") && !s.key.startsWith("gateway.") && !s.key.startsWith("import.mapping.")).length).toBe(91);
     expect(first.problems.total).toBe(22);
   });
 
@@ -51,7 +51,7 @@ describe.skipIf(!has)("البذور والإعدادات على قاعدة حق�
     const before = {
       problems: await d.problem.count(),
       claims: await d.claimRule.count(),
-      keywords: await d.keyword.count(),
+      keywords: await d.keyword.count({ where: { source: "seed:trend" } }),
       edited: await d.setting.count({ where: { key: "schedule.weekly_report" } }),
     };
     await setSetting(d, "schedule.weekly_report", { label: "الأسبوعي", raw: "الأحد 11:00" }, "owner-1");
@@ -59,7 +59,7 @@ describe.skipIf(!has)("البذور والإعدادات على قاعدة حق�
     for (const r of Object.values(second)) expect(r.created).toBe(0);
     expect(await d.problem.count()).toBe(before.problems);
     expect(await d.claimRule.count()).toBe(before.claims);
-    expect(await d.keyword.count()).toBe(before.keywords);
+    expect(await d.keyword.count({ where: { source: "seed:trend" } })).toBe(before.keywords);
     // إعادة الاستيراد ما أضافت نسخ: نسخة المالك الجديدة بس (باقي المفاتيح بتتغيّر من اختبارات تانية بنفس الوقت، فبنفحص المفتاح نفسه)
     expect(await d.setting.count({ where: { key: "schedule.weekly_report" } })).toBe(before.edited + 1);
     expect(await d.setting.count({ where: { key: "velocity.w.age" } })).toBe(1);

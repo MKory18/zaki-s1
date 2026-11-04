@@ -5,6 +5,7 @@ import { runAgent } from "@/agents/service";
 import { retryDue } from "@/adapters/outbox";
 import { makeExplainer } from "@/lib/dna-explain";
 import { runLearning } from "@/lib/dna";
+import { googleTrendsReminder, runSource } from "@/sources/run";
 import { JOBS } from "./registry";
 import type { Handler } from "./queue";
 
@@ -12,6 +13,21 @@ const pending: Handler = async () => ({ skipped: true, reason: "الوحدة ل�
 
 export const HANDLERS: Record<string, Handler> = {
   ...Object.fromEntries(JOBS.map((j) => [j.name, pending])),
+  // السحب الليلي من الواجهات الرسمية، بكلمات خريطة المشاكل
+  "pull.aliexpress": async () => {
+    const r = await runSource(getDb(), "aliexpress");
+    if (r.status === "failed") throw new Error(`فشل سحب علي إكسبرس: ${r.errors[0]?.reason ?? ""}`); // BullMQ بيعيد بعد ساعة
+    return { keywords: r.keywords, ok: r.ok, failed: r.failed, observations: r.observationsCreated };
+  },
+  "pull.meta_eu": async () => {
+    const r = await runSource(getDb(), "meta_eu");
+    if (r.status === "failed") throw new Error(`فشل سحب مكتبة إعلانات ميتا: ${r.errors[0]?.reason ?? ""}`);
+    return { keywords: r.keywords, ok: r.ok, failed: r.failed, observations: r.observationsCreated };
+  },
+  "pull.google_trends": async () => {
+    googleTrendsReminder(); // الواجهة الرسمية بطلب وصول: بنذكّر بالاستيراد اليدوي
+    return { reminder: true };
+  },
   // تعلّم الحمض (السبت 23:00): أداء الـ OMS ← أوزان جديدة، والشرح بـ A05
   "dna.learn": async () => {
     const r = await runLearning(getDb(), { explain: makeExplainer(getDb()) });

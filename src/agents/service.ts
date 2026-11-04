@@ -124,15 +124,23 @@ export async function createVersion(db: PrismaClient, code: string, body: string
   if (!body.trim()) throw new PromptError("bad_request", "نص البرومبت فاضي");
   const prompt = await db.prompt.findFirst({ where: { code, deletedAt: null } });
   if (!prompt) throw new PromptError("not_found", "البرومبت مش موجود");
-  const last = await db.promptVersion.findFirst({ where: { promptId: prompt.id }, orderBy: { version: "desc" } });
-  const prevMeta = (last?.outputSchemaJson ?? {}) as unknown as PromptMeta;
   const variables = [...new Set([...body.matchAll(/\{\{(\w+)\}\}/g)].map((m) => m[1]))].sort();
-  const meta: PromptMeta = { ...prevMeta, ...metaOverride, variables };
-  const v = await db.promptVersion.create({
-    data: { promptId: prompt.id, version: (last?.version ?? 0) + 1, body, outputSchemaJson: meta as never, authorId, note: note ?? null },
-  });
-  await db.prompt.update({ where: { id: prompt.id }, data: { activeVersionId: v.id } });
-  return v;
+  // طلبين بنفس اللحظة بياخدوا نفس رقم النسخة: القيد الفريد بيمنع التكرار، والخاسر بيعيد على آخر رقم
+  for (let attempt = 0; attempt < 4; attempt++) {
+    const last = await db.promptVersion.findFirst({ where: { promptId: prompt.id }, orderBy: { version: "desc" } });
+    const prevMeta = (last?.outputSchemaJson ?? {}) as unknown as PromptMeta;
+    const meta: PromptMeta = { ...prevMeta, ...metaOverride, variables };
+    try {
+      const v = await db.promptVersion.create({
+        data: { promptId: prompt.id, version: (last?.version ?? 0) + 1, body, outputSchemaJson: meta as never, authorId, note: note ?? null },
+      });
+      await db.prompt.update({ where: { id: prompt.id }, data: { activeVersionId: v.id } });
+      return v;
+    } catch (e) {
+      if (!(e instanceof Prisma.PrismaClientKnownRequestError && e.code === "P2002") || attempt === 3) throw e;
+    }
+  }
+  throw new Error("unreachable");
 }
 
 // «رجوع»: نسخة جديدة بنص النسخة القديمة (التاريخ ما بيتمسح)

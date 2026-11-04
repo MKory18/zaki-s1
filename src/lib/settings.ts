@@ -82,6 +82,7 @@ export const SETTING_TABS = [
   { id: "schedule", label: "الجدولة", prefixes: ["schedule."] },
   { id: "budgets", label: "الميزانيات", prefixes: ["agents."] },
   { id: "integration", label: "الربط", prefixes: ["integration."] },
+  { id: "sources", label: "المصادر", prefixes: ["source.", "sources.", "import."] },
   { id: "templates", label: "القوالب", prefixes: ["template.", "launch.", "costs.", "compliance."] },
 ] as const;
 
