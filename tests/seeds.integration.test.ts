@@ -24,12 +24,13 @@ describe.skipIf(!has)("البذور والإعدادات على قاعدة حق�
   it("عدد السجلات بكل مكتبة مطابق للملف", async () => {
     const d = db();
     expect(await d.problem.count()).toBe(22);
-    expect(await d.referenceText.count({ where: { kind: { in: ["hadith", "quran"] } } })).toBe(9);
-    expect(await d.referenceText.count({ where: { kind: "heritage" } })).toBe(13);
-    expect(await d.ingredient.count({ where: { status: "allowed" } })).toBe(25);
-    expect(await d.ingredient.count({ where: { status: { in: ["banned", "restricted"] } } })).toBe(11);
-    expect(await d.claimRule.count()).toBe(16);
-    expect(await d.adPolicyRule.count()).toBe(10);
+    // اختبارات الامتثال بتضيف سجلاتها بنفس القاعدة وبنفس الوقت (أسماؤها بتبدأ بـ cmp أو رمزها T-): بنعدّ المبذور بس
+    expect(await d.referenceText.count({ where: { kind: { in: ["hadith", "quran"] }, code: { startsWith: "REF-" } } })).toBe(9);
+    expect(await d.referenceText.count({ where: { kind: "heritage", code: { startsWith: "HER-" } } })).toBe(13);
+    expect(await d.ingredient.count({ where: { status: "allowed", nameAr: { not: { startsWith: "cmp" } } } })).toBe(25);
+    expect(await d.ingredient.count({ where: { status: { in: ["banned", "restricted"] }, nameAr: { not: { startsWith: "cmp" } } } })).toBe(11);
+    expect(await d.claimRule.count({ where: { phrase: { not: { startsWith: "cmp" } } } })).toBe(16);
+    expect(await d.adPolicyRule.count({ where: { rule: { not: { startsWith: "cmp" } } } })).toBe(10);
     expect(await d.rejectReason.count()).toBe(12);
     expect(await d.dnaReference.count({ where: { name: { in: ["ماء الكمأة", "بديل الليزر", "طنين الأذن"] } } })).toBe(3); // المرجعيات المبذورة (غيرها بتنضاف من اختبارات الحمض)
     expect(await d.brandRegistry.count()).toBe(6);
@@ -50,7 +51,7 @@ describe.skipIf(!has)("البذور والإعدادات على قاعدة حق�
     const d = db();
     const before = {
       problems: await d.problem.count(),
-      claims: await d.claimRule.count(),
+      claims: await d.claimRule.count({ where: { phrase: { not: { startsWith: "cmp" } } } }),
       keywords: await d.keyword.count({ where: { source: "seed:trend" } }),
       edited: await d.setting.count({ where: { key: "schedule.weekly_report" } }),
     };
@@ -58,7 +59,7 @@ describe.skipIf(!has)("البذور والإعدادات على قاعدة حق�
     const second = await importSeeds(d, data);
     for (const r of Object.values(second)) expect(r.created).toBe(0);
     expect(await d.problem.count()).toBe(before.problems);
-    expect(await d.claimRule.count()).toBe(before.claims);
+    expect(await d.claimRule.count({ where: { phrase: { not: { startsWith: "cmp" } } } })).toBe(before.claims);
     expect(await d.keyword.count({ where: { source: "seed:trend" } })).toBe(before.keywords);
     // إعادة الاستيراد ما أضافت نسخ: نسخة المالك الجديدة بس (باقي المفاتيح بتتغيّر من اختبارات تانية بنفس الوقت، فبنفحص المفتاح نفسه)
     expect(await d.setting.count({ where: { key: "schedule.weekly_report" } })).toBe(before.edited + 1);

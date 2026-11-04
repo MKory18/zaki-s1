@@ -503,6 +503,7 @@ model ReferenceText {
   reviewStatus ReviewStatus @default(pending)
   reviewerId   String?
   reviewedAt   DateTime?    @db.Timestamptz(6)
+  reviewNote   String?
   usageRule    String?
 
   @@index([reviewStatus])
@@ -561,6 +562,8 @@ model ComplianceCheck {
   agentRunId      String?
   humanReviewerId String?
   humanVerdict    ComplianceVerdict?
+  humanNote       String?
+  humanReviewedAt DateTime?          @db.Timestamptz(6)
 
   candidate Candidate @relation(fields: [candidateId], references: [id])
 
@@ -581,7 +584,12 @@ model Batch {
   coaKey             String?
   independentTestKey String?
   sterile            Boolean?
+  category           String?
+  heavyMetalsTested  Boolean?
   status             BatchStatus @default(pending)
+  releasedAt         DateTime?   @db.Timestamptz(6)
+  releasedBy         String?
+  blockReason        String?
   notes              String?
 
   supplier Supplier? @relation(fields: [supplierId], references: [id])
@@ -1031,6 +1039,18 @@ model Report {
   sentAt    DateTime?  @db.Timestamptz(6)
 
   @@unique([kind, period])
+}
+
+// أحداث صادرة من سيستم 1 (compliance.updated · batch.blocked · license.expiring). الأنظمة التانية بتسحبها من /api/s1/v1/events.
+model OutboundEvent {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now()) @db.Timestamptz(6)
+  updatedAt DateTime @updatedAt @db.Timestamptz(6)
+  type      String
+  dataJson  Json
+  targets   Json
+
+  @@index([createdAt])
 }
 
 model AuditLog {

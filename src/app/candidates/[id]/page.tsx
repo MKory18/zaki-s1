@@ -4,9 +4,15 @@ import { can } from "@/core/permissions";
 import { requireUser } from "@/lib/current-user";
 import { dbConfigured, getDb } from "@/lib/db";
 import { buildCard } from "@/pipeline/card";
+import { latestCheck } from "@/compliance/service";
 import { DecisionButtons } from "./decision-buttons";
+import { ReviewCheck, RunCompliance } from "./compliance-panel";
 
 export const dynamic = "force-dynamic";
+
+const VERDICT_AR: Record<string, string> = { pass: "مقبول", pass_with_edits: "مقبول بتعديلات", needs_specialist: "يوقف لقرار مختص", fail: "مرفوض" };
+const CLASS_AR: Record<string, string> = { cosmetic: "تجميلي", therapeutic: "علاجي", needs_review: "بين وبين" };
+const CHECK_AR: Record<string, string> = { ok: "سليم", edit: "تعديل", specialist: "يوقف لمختص", fail: "مرفوض", na: "—" };
 
 export default async function CardPage({ params }: { params: Promise<{ id: string }> }) {
   const user = await requireUser("dashboard.view");
@@ -16,6 +22,7 @@ export default async function CardPage({ params }: { params: Promise<{ id: strin
   const card = await buildCard(db, id);
   if (!card) notFound();
   const reasons = await db.rejectReason.findMany({ orderBy: { code: "asc" } });
+  const comp = await latestCheck(db, id);
   const h = card.header;
   const v = card.numbers.velocity;
   const rule = card.decision.rule;
@@ -28,7 +35,7 @@ export default async function CardPage({ params }: { params: Promise<{ id: strin
 
       <section>
         <h2>الأرقام (من الكود)</h2>
-        <p data-testid="velocity"><strong>{v.insufficient ? "مؤشر السرعة: بيانات غير كافية" : `مؤشر السرعة: ${v.score}`}</strong> <details><summary>التفكيك والقاعدة</summary><span dir="auto">{v.rule}</span></details></p>
+        <div data-testid="velocity"><strong>{v.insufficient ? "مؤشر السرعة: بيانات غير كافية" : `مؤشر السرعة: ${v.score}`}</strong> <details><summary>التفكيك والقاعدة</summary><span dir="auto">{v.rule}</span></details></div>
         <table>
           <thead><tr><th>الإشارة</th><th>القيمة</th><th>الدرجة</th><th>الوزن</th></tr></thead>
           <tbody>{v.signals.map((s) => <tr key={s.key}><td>{s.label}</td><td>{s.raw}</td><td>{s.score ?? "—"}</td><td>{s.measured ? s.weight : "—"}</td></tr>)}</tbody>
@@ -41,7 +48,22 @@ export default async function CardPage({ params }: { params: Promise<{ id: strin
 
       <section>
         <h2>الامتثال والسوق</h2>
-        <p>الامتثال: {card.compliance.note}</p>
+        <p data-testid="compliance">الامتثال: <strong data-testid="compliance-verdict">{VERDICT_AR[card.compliance.status] ?? "ما انفحص لسا"}</strong>{card.compliance.classification ? ` · ${CLASS_AR[card.compliance.classification] ?? card.compliance.classification}` : ""}{card.compliance.stage ? ` · فحص ${card.compliance.stage === "full" ? "كامل" : "مبدئي"}` : ""} — {card.compliance.note}</p>
+        {comp && (
+          <details>
+            <summary>الفحوصات الثمانية</summary>
+            <table data-testid="compliance-checks">
+              <thead><tr><th>#</th><th>الفحص</th><th>النتيجة</th><th>التفاصيل</th></tr></thead>
+              <tbody>{comp.result.checks.map((c) => <tr key={c.n} data-status={c.status}><td>{c.n}</td><td>{c.label}</td><td>{CHECK_AR[c.status]}</td><td>{c.detail}</td></tr>)}</tbody>
+            </table>
+            {comp.result.claims.some((c) => c.status !== "allowed") && (
+              <ul data-testid="compliance-claims">{comp.result.claims.filter((c) => c.status !== "allowed").map((c) => <li key={c.text}>«{c.text}» — {c.status === "banned" ? "ممنوع" : "يحتاج تعديل"}{c.alternative ? ` — البديل المقترح: ${c.alternative}` : ""}</li>)}</ul>
+            )}
+            {!comp.result.agent.used && <p className="muted">{comp.result.agent.error ? `رأي الوكيل ما وصل: ${comp.result.agent.error}` : "بلا رأي الوكيل"}</p>}
+          </details>
+        )}
+        {comp && !comp.humanVerdict && (comp.verdict === "needs_specialist" || comp.verdict === "pass_with_edits") && can(user.role, "claims.approve") && <ReviewCheck checkId={comp.id} />}
+        {can(user.role, "claims.approve") && <RunCompliance id={h.id} />}
         <p>جاهزية السوق: {card.market.readiness.verdict === "ready" ? "جاهز" : card.market.readiness.verdict === "conditional" ? `جاهز بشروط — ${card.market.readiness.conditions.join(" · ")}` : `مش جاهز — ${card.market.readiness.reasons.join(" · ")}`}</p>
       </section>
 

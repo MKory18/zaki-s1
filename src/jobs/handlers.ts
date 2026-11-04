@@ -9,6 +9,8 @@ import { googleTrendsReminder, runSource } from "@/sources/run";
 import { assembleCards, runCompute, runDedupe, runNormalize, runScanner, runScreen, runVerifier } from "@/pipeline/stages";
 import type { ReportKind } from "@/reports/data";
 import { generateReport } from "@/reports/service";
+import { sweepBatches, sweepLicenses, sweepPolicies } from "@/compliance/quality";
+import { drain } from "@/lib/persist";
 import { JOBS } from "./registry";
 import type { Handler } from "./queue";
 
@@ -59,6 +61,18 @@ export const HANDLERS: Record<string, Handler> = {
   "report.morning": async () => reportJob("morning"),
   "report.weekly": async () => reportJob("weekly"),
   "report.monthly": async () => reportJob("monthly"),
+  // الجودة: تراخيص قريبة من الانتهاء ودفعات بلا شهادة (08:00)، وقواعد إعلانات ما انراجعت من 90 يوم (الأحد). التنبيهات بلا تكرار.
+  "license.alerts": async () => {
+    const l = await sweepLicenses(getDb());
+    const b = await sweepBatches(getDb());
+    await drain();
+    return { licenses: l, batches: b };
+  },
+  "policy.staleness": async () => {
+    const r = await sweepPolicies(getDb());
+    await drain();
+    return r;
+  },
   // تشغيل وكيل بطلب: { code, vars }
   "agent.run": async (data) => {
     const code = String(data.code ?? "");

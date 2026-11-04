@@ -5,10 +5,10 @@ const src = readFileSync("prisma/schema.prisma", "utf8");
 const models = [...src.matchAll(/^model (\w+) \{([\s\S]*?)^\}/gm)].map((m) => ({ name: m[1], body: m[2] }));
 
 describe("مخطط قاعدة البيانات", () => {
-  it("53 جدول بأسماء الخطة", () => {
-    expect(models.length).toBe(53);
+  it("54 جدول: 53 بأسماء الخطة + الأحداث الصادرة", () => {
+    expect(models.length).toBe(54);
     const names = models.map((m) => m.name);
-    for (const n of ["Candidate", "Observation", "ImageAsset", "Problem", "Market", "Keyword", "DnaReference", "DnaProfile", "DnaWeightSet", "ScoreSnapshot", "EconomicsCalc", "MarketReadiness", "Decision", "RejectReason", "ReferenceText", "Ingredient", "ClaimRule", "AdPolicyRule", "ComplianceCheck", "Batch", "License", "ProductFile", "FormulationBrief", "Supplier", "Quote", "Sample", "DraftMessage", "BrandBrief", "BrandRegistry", "TestPage", "TrendTest", "TrendAngle", "VideoMetric", "LaunchPack", "OutboundRequest", "InboundEvent", "Agent", "Prompt", "PromptVersion", "AgentRun", "ModelProvider", "ModelRoute", "User", "Setting", "Alert", "Report", "AuditLog", "ExtensionDevice", "SelectorSet", "CaptureJob", "ImportJob", "ConsultantThread", "ConsultantMessage"]) {
+    for (const n of ["Candidate", "Observation", "ImageAsset", "Problem", "Market", "Keyword", "DnaReference", "DnaProfile", "DnaWeightSet", "ScoreSnapshot", "EconomicsCalc", "MarketReadiness", "Decision", "RejectReason", "ReferenceText", "Ingredient", "ClaimRule", "AdPolicyRule", "ComplianceCheck", "Batch", "License", "ProductFile", "FormulationBrief", "Supplier", "Quote", "Sample", "DraftMessage", "BrandBrief", "BrandRegistry", "TestPage", "TrendTest", "TrendAngle", "VideoMetric", "LaunchPack", "OutboundRequest", "InboundEvent", "Agent", "Prompt", "PromptVersion", "AgentRun", "ModelProvider", "ModelRoute", "User", "Setting", "Alert", "Report", "AuditLog", "ExtensionDevice", "SelectorSet", "CaptureJob", "ImportJob", "ConsultantThread", "ConsultantMessage", "OutboundEvent"]) {
       expect(names, n).toContain(n);
     }
   });

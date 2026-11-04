@@ -49,7 +49,7 @@ export async function buildCompliance(db: PrismaClient, productRef: string): Pro
   return {
     product_ref: pf.id,
     classification,
-    verdict: check?.verdict ?? "needs_specialist", // ما في فحص = يحتاج مراجعة
+    verdict: check ? (check.humanVerdict ?? check.verdict) : "needs_specialist", // قرار المراجع أولاً، وما في فحص = يحتاج مراجعة
     allowed_claims: allowed,
     banned_claims: claims.map((c) => c.phrase),
     references,
