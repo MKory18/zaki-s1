@@ -3,6 +3,8 @@ import { getDb } from "@/lib/db";
 import { raiseAlert } from "@/lib/alerts";
 import { runAgent } from "@/agents/service";
 import { retryDue } from "@/adapters/outbox";
+import { makeExplainer } from "@/lib/dna-explain";
+import { runLearning } from "@/lib/dna";
 import { JOBS } from "./registry";
 import type { Handler } from "./queue";
 
@@ -10,6 +12,11 @@ const pending: Handler = async () => ({ skipped: true, reason: "الوحدة ل�
 
 export const HANDLERS: Record<string, Handler> = {
   ...Object.fromEntries(JOBS.map((j) => [j.name, pending])),
+  // تعلّم الحمض (السبت 23:00): أداء الـ OMS ← أوزان جديدة، والشرح بـ A05
+  "dna.learn": async () => {
+    const r = await runLearning(getDb(), { explain: makeExplainer(getDb()) });
+    return { version: r.version, products: r.products, successes: r.successes, proposed: r.proposedReferences };
+  },
   // إعادة الطلبات الصادرة المعلّقة اللي حان موعدها (كل 5 دقايق)
   "outbound.retry": async () => {
     const rows = await retryDue(getDb());

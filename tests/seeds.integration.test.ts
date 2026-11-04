@@ -31,7 +31,7 @@ describe.skipIf(!has)("البذور والإعدادات على قاعدة حق�
     expect(await d.claimRule.count()).toBe(16);
     expect(await d.adPolicyRule.count()).toBe(10);
     expect(await d.rejectReason.count()).toBe(12);
-    expect(await d.dnaReference.count()).toBe(3);
+    expect(await d.dnaReference.count({ where: { name: { in: ["ماء الكمأة", "بديل الليزر", "طنين الأذن"] } } })).toBe(3); // المرجعيات المبذورة (غيرها بتنضاف من اختبارات الحمض)
     expect(await d.brandRegistry.count()).toBe(6);
     expect(await d.market.count()).toBe(2);
     expect(await d.testPage.count()).toBe(3);
