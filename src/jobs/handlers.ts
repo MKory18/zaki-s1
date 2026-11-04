@@ -6,6 +6,7 @@ import { retryDue } from "@/adapters/outbox";
 import { makeExplainer } from "@/lib/dna-explain";
 import { runLearning } from "@/lib/dna";
 import { googleTrendsReminder, runSource } from "@/sources/run";
+import { assembleCards, runCompute, runDedupe, runNormalize, runScanner, runScreen, runVerifier } from "@/pipeline/stages";
 import { JOBS } from "./registry";
 import type { Handler } from "./queue";
 
@@ -13,6 +14,14 @@ const pending: Handler = async () => ({ skipped: true, reason: "الوحدة ل�
 
 export const HANDLERS: Record<string, Handler> = {
   ...Object.fromEntries(JOBS.map((j) => [j.name, pending])),
+  // خط التقييم اليومي (الجدول بملف المنطق): الموحّد ← الدمج ← الحساب ← الماسح ← المحقق ← الفحص المبدئي ← البطاقات
+  normalize: async () => runNormalize(getDb()),
+  dedupe: async () => runDedupe(getDb()),
+  "compute.scores": async () => runCompute(getDb()),
+  "agent.scanner": async () => runScanner(getDb()),
+  "agent.verifier": async () => runVerifier(getDb()),
+  "screen.batch": async () => runScreen(getDb()),
+  "cards.assemble": async () => assembleCards(getDb()),
   // السحب الليلي من الواجهات الرسمية، بكلمات خريطة المشاكل
   "pull.aliexpress": async () => {
     const r = await runSource(getDb(), "aliexpress");
