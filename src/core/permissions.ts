@@ -33,6 +33,9 @@ export const MATRIX = {
   "prompts.manage": [...OWNERS],
   "users.manage": [...OWNERS],
   "audit.view": [...OWNERS],
+  // الجودة (الدفعات والتراخيص): المالك والنائب، والمراجع الامتثال بيشوف بس
+  "quality.view": [...OWNERS, "compliance"],
+  "quality.manage": [...OWNERS],
 } as const satisfies Record<string, readonly Role[]>;
 
 export type Action = keyof typeof MATRIX;

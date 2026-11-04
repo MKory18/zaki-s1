@@ -1,5 +1,6 @@
 // بطاقة المرشح (docs/01-logic.md الجزء الرابع، قسم 10): الرأس · الأرقام · الامتثال · السوق · المصادر · الآراء · القرار · السجل.
 // الأرقام كلها من الكود (نفس وحدة الحاسبة)، وآراء الوكلاء معلّمة «تقدير» وبتظهر جنب الرقم الحقيقي مش بداله.
+import { latestCheck } from "@/compliance/service";
 import type { PrismaClient } from "@/generated/prisma/client";
 import { nextStates, STATUS_LABELS_AR, type CandidateStatus } from "@/core/candidate-status";
 import { loadCoreConfig, RULES_VERSION } from "@/core/config";
@@ -39,7 +40,8 @@ export async function buildCard(db: PrismaClient, id: string) {
   const hits = evaluateReject({ lane: c.lane, creators: creatorsTotal(c.observations), trendAgeDays: sig.trendAgeDays, cumulativeSales: sig.cumulativeSales, expectedPerShipment: econ ? parseFloat(econ.lossLimit) : null }, cfg.reject);
   const readiness = assessReadiness([whitespaceFactor(sig.advertisersInMarket ?? null)]);
   const inv = await investigatorOpinion(db, c.id);
-  const rule = decide({ rejectHits: hits, velocity: velocity.score, dna: dna?.score ?? null, cpaCeiling: econ ? parseFloat(econ.cpaCeiling) : null, complianceVerdict: null, readiness: readiness.verdict, investigator: inv?.opinion ?? null }, cfg.decision);
+  const comp = await latestCheck(db, c.id);
+  const rule = decide({ rejectHits: hits, velocity: velocity.score, dna: dna?.score ?? null, cpaCeiling: econ ? parseFloat(econ.cpaCeiling) : null, complianceVerdict: comp ? comp.effective : null, readiness: readiness.verdict, investigator: inv?.opinion ?? null }, cfg.decision);
 
   const opinions: Record<string, unknown> = {};
   for (const code of ["A06", "A07", "A08", "A09", "A10"]) {
@@ -58,7 +60,9 @@ export async function buildCard(db: PrismaClient, id: string) {
       economics: econ ? { ...econ, scenarios } : null,
       rejectHits: hits,
     },
-    compliance: { status: "pending", note: "بوابة الامتثال بتجي مع المهمة B13" },
+    compliance: comp
+      ? { status: comp.effective, checkId: comp.id, stage: comp.stage, classification: comp.classification, reasons: comp.reasons, human: comp.humanVerdict, note: comp.humanVerdict ? `${comp.humanVerdict} (قرار المراجع: ${comp.humanNote ?? ""})` : comp.reasons.join(" · ") || "ولا ملاحظة" }
+      : { status: "pending", checkId: null, stage: null, classification: null, reasons: [] as string[], human: null, note: "ما انفحص امتثاله لسا (الفحص المبدئي بيجي مع الفحص اليومي)" },
     market: { readiness, whitespaceAdvertisers: sig.advertisersInMarket ?? null },
     sources: c.observations.map((o) => ({ id: o.id, source: o.source, access: ACCESS_LABELS_AR[o.accessMethod as AccessMethod] ?? o.accessMethod, trust: o.trust, url: o.url, capturedAt: o.capturedAt.toISOString().slice(0, 10), snapshot: o.snapshotKey })),
     opinions,

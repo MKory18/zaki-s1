@@ -33,7 +33,7 @@ test.describe("المرشحين والبطاقة", () => {
     await expect(page.getByTestId("velocity")).toContainText("بيانات غير كافية");
     await expect(page.getByTestId("dna")).toContainText("ما انعبّى ملف الحمض");
     await expect(page.getByTestId("economics")).toContainText("بيانات ناقصة");
-    await expect(page.getByText("بوابة الامتثال بتجي مع المهمة B13")).toBeVisible();
+    await expect(page.getByTestId("compliance")).toContainText("ما انفحص امتثاله");
     await expect(page.locator('tr[data-source="manual"]')).toContainText("يدوي");
     await expect(page.getByText("البطاقة مش جاهزة لقرارك")).toBeVisible();
     await expect(page.getByRole("button", { name: "ابدأ بحث معمّق" })).toHaveCount(0);

@@ -13,11 +13,11 @@ describe.skipIf(!has)("قاعدة البيانات الحقيقية", () => {
     await getDb().$disconnect();
   });
 
-  it("الترحيل اشتغل: 53 جدول وامتداد المتجهات", async () => {
+  it("الترحيل اشتغل: 54 جدول وامتداد المتجهات", async () => {
     const r = await inspectDb();
     expect(r.connected).toBe(true);
     expect(r.vectorExtension).toBe(true);
-    expect(r.tables.length).toBe(53);
+    expect(r.tables.length).toBe(54);
   });
 
   it("انتقال حالة غلط بينرفض والقاعدة ما بتتغيّر، والصح بيمرّ", async () => {

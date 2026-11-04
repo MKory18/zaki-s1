@@ -10,8 +10,8 @@ const TELEGRAM_TYPES = new Set(["budget", "license_expiring", "batch_no_certific
 // أي نوع بيفتح شاشته: «افتح الوكلاء» لتوقف الوكيل مثلاً
 const TARGET: Record<string, { label: string; path: string }> = {
   budget: { label: "افتح الوكلاء", path: "/agents" },
-  license_expiring: { label: "افتح المكتبات", path: "/libraries" },
-  batch_no_certificate: { label: "افتح المكتبات", path: "/libraries" },
+  license_expiring: { label: "افتح التراخيص", path: "/licenses" },
+  batch_no_certificate: { label: "افتح الدفعات", path: "/batches" },
   outbound_dead: { label: "افتح الربط", path: "/integrations" },
 };
 

@@ -15,6 +15,7 @@ import { saveVelocity } from "@/core/save";
 import { computeVelocity } from "@/core/velocity";
 import { hamming } from "@/core/phash";
 import { AgentRunError } from "@/agents/runner";
+import { latestCheck, screenCandidate, type AgentRunner } from "@/compliance/service";
 import { runAgent } from "@/agents/service";
 import { listSettings } from "@/lib/settings";
 import { parseNumber, rawOf } from "@/core/settings-parse";
@@ -217,7 +218,7 @@ export async function runVerifier(db: PrismaClient, agent: AgentFn = defaultAgen
   return r;
 }
 
-// ───── 6. الفحص المبدئي: A08 وA09 وA10 على أعلى 15 من المتحقَّق منهم (A11 المبدئي بيجي مع بوابة الامتثال B13) ─────
+// ───── 6. الفحص المبدئي: A08 وA09 وA10 وA11 المبدئي على أعلى 15 من المتحقَّق منهم ─────
 export async function runScreen(db: PrismaClient, agent: AgentFn = defaultAgent(db)): Promise<StageReport> {
   const r = rep("screen");
   const m = await settingsMap(db);
@@ -243,6 +244,14 @@ export async function runScreen(db: PrismaClient, agent: AgentFn = defaultAgent(
     }
     await agent("A10", { market: cfg.market.code, whitespace: whitespaceFactor(sig.advertisersInMarket ?? null), search_trend: "unknown", local_prices: [], logistics: null, regulatory: null, angle: null }, candRef(c.id));
     bump(r, "a10");
+    // الامتثال المبدئي (A11 بعد فحوصات الكود). الوكيل متوقف = الكود لحاله. ما بنعيد فحص مرشح ما تغيّرت المكتبات من آخر فحص.
+    const asRunner: AgentRunner = async (_db, code, vars, o) => {
+      const out = await agent(code, vars, o?.inputRef ?? candRef(c.id));
+      if (out === null) throw new AgentRunError("gateway", "الوكيل ما رجّع نتيجة");
+      return { output: out };
+    };
+    const comp = await screenCandidate(db, c.id, { runAgent: asRunner });
+    if (comp) bump(r, `compliance_${comp.verdict}`);
     r.processed += 1;
   }
   bump(r, "limit", n);
@@ -289,7 +298,8 @@ export async function assembleCards(db: PrismaClient): Promise<StageReport> {
     const hits = evaluateReject({ lane: c.lane, creators: creatorsTotal(c.observations), trendAgeDays: sig.trendAgeDays, cumulativeSales: sig.cumulativeSales, expectedPerShipment: econ ? parseFloat(econ.lossLimit) : null }, cfg.reject);
     const readiness = assessReadiness([whitespaceFactor(sig.advertisersInMarket ?? null)]);
     const inv = await investigatorOpinion(db, c.id);
-    const d = decide({ rejectHits: hits, velocity: velocity.score, dna: dna?.score ?? null, cpaCeiling: econ ? parseFloat(econ.cpaCeiling) : null, complianceVerdict: null, readiness: readiness.verdict, investigator: inv?.opinion ?? null }, cfg.decision);
+    const comp = await latestCheck(db, c.id);
+    const d = decide({ rejectHits: hits, velocity: velocity.score, dna: dna?.score ?? null, cpaCeiling: econ ? parseFloat(econ.cpaCeiling) : null, complianceVerdict: comp ? comp.effective : null, readiness: readiness.verdict, investigator: inv?.opinion ?? null }, cfg.decision);
     const mapped = d.decision === "reject_auto" || d.decision === "reject" ? "reject" : d.decision === "watch" ? "watch" : "deep_research";
     await db.candidate.update({
       where: { id: c.id },

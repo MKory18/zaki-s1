@@ -21,7 +21,10 @@ export default async function HomePage() {
         {can(user.role, "dashboard.view") && <Link href="/dna">الحمض</Link>}
         {can(user.role, "dashboard.view") && <Link href="/calc">الحاسبة</Link>}
         {can(user.role, "settings.manage") && <Link href="/settings">الإعدادات</Link>}
-        {can(user.role, "settings.manage") && <Link href="/libraries">المكتبات</Link>}
+        {can(user.role, "dashboard.view") && <Link href="/libraries">المكتبات</Link>}
+        {(can(user.role, "texts.view") || can(user.role, "claims.approve")) && <Link href="/review">المراجعة</Link>}
+        {can(user.role, "quality.view") && <Link href="/batches">الدفعات</Link>}
+        {can(user.role, "quality.view") && <Link href="/licenses">التراخيص</Link>}
         {can(user.role, "prompts.manage") && <Link href="/agents">الوكلاء</Link>}
         {can(user.role, "prompts.manage") && <Link href="/prompts">مركز البرومبتات</Link>}
         {can(user.role, "prompts.manage") && <Link href="/gateway">بوابة الموديلات</Link>}
