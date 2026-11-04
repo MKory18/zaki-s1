@@ -22,6 +22,19 @@ concurrency:
 jobs:
   check:
     runs-on: ubuntu-24.04
+    # قاعدة حقيقية للاختبارات: بيطبّق عليها الترحيل على قاعدة فاضية
+    services:
+      postgres:
+        image: pgvector/pgvector:pg16
+        env:
+          POSTGRES_USER: ci
+          POSTGRES_PASSWORD: ci-only-password # scan:ok
+          POSTGRES_DB: zaki_s1_ci
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U ci -d zaki_s1_ci" --health-interval 5s --health-timeout 5s --health-retries 10
+    env:
+      DATABASE_URL: postgresql://ci:ci-only-password@127.0.0.1:5432/zaki_s1_ci # scan:ok
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -29,6 +42,10 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      - name: عميل قاعدة البيانات
+        run: npm run db:generate
+      - name: ترحيل القاعدة (على قاعدة فاضية)
+        run: npm run db:migrate
       - name: الأنواع
         run: npm run typecheck
       - name: فحص الأسرار
