@@ -21,7 +21,7 @@ EXPOSE 3000
 HEALTHCHECK --interval=15s --timeout=5s --retries=5 CMD wget -qO- http://127.0.0.1:3000/api/health || exit 1
 CMD ["node", "server.js"]
 
-# ── العامل: بيطبّق ترحيل القاعدة أول ما يشتغل، وبعدين بيبدأ شغله ──
+# ── العامل: بيطبّق ترحيل القاعدة والبذور أول ما يشتغل (آمنين للتكرار)، وبعدين بيبدأ شغله ──
 FROM node:22-alpine AS worker
 WORKDIR /app
 ENV NODE_ENV=production TZ=Asia/Amman
@@ -30,4 +30,4 @@ COPY --from=build /app/src ./src
 COPY package.json tsconfig.json prisma.config.ts ./
 COPY prisma ./prisma
 COPY worker ./worker
-CMD ["sh", "-c", "npx prisma migrate deploy && npx tsx worker/index.ts"]
+CMD ["sh", "-c", "npx prisma migrate deploy && npx tsx prisma/seed.ts && npx tsx worker/index.ts"]

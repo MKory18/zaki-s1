@@ -68,3 +68,35 @@ td {
   padding: 0.5rem;
   border-bottom: 1px solid #d5e1e6;
 }
+
+.shell.wide {
+  max-width: 72rem;
+}
+
+.tabs {
+  flex-wrap: wrap;
+  margin: 1rem 0;
+}
+
+.tab {
+  padding: 0.4rem 0.9rem;
+  border-radius: 0.5rem;
+  background: #fff;
+  border: 1px solid #d5e1e6;
+  color: var(--s1-accent);
+  text-decoration: none;
+}
+
+.tab.on {
+  background: var(--s1-accent);
+  color: #fff;
+}
+
+input,
+textarea,
+select {
+  font: inherit;
+  padding: 0.3rem 0.5rem;
+  border: 1px solid #c4d3da;
+  border-radius: 0.4rem;
+}

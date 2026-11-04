@@ -32,7 +32,7 @@ describe("كل نقطة API بتفحص الصلاحية", () => {
         expect(src).toContain("عام عن قصد");
         return;
       }
-      expect(src).toMatch(/\bguard(Authenticated)?\(/);
+      expect(src).toMatch(/\bguard(Authenticated)?(<[^>]*>)?\(/);
       // أي دالة تصدّرها لازم تكون محروسة
       for (const m of src.matchAll(/export (?:async )?function (GET|POST|PUT|PATCH|DELETE)\b/g)) {
         throw new Error(`${f}: ${m[1]} غير محروس`);

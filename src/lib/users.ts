@@ -2,6 +2,7 @@
 // أي مستخدم جديد بيدخل بدور «مشاهد» (أقل صلاحية). المالك بيتحدد برقم الهوية OWNER_OIDC_SUB من .env.
 import { isRole, type Role } from "@/core/permissions";
 import { recordAudit } from "@/lib/audit";
+import { sinks } from "@/lib/hooks";
 
 export interface UserRecord {
   sub: string;
@@ -19,11 +20,17 @@ export class UserError extends Error {
 const g = globalThis as unknown as { __s1Users?: Map<string, UserRecord> };
 const users = (g.__s1Users ??= new Map<string, UserRecord>());
 
+export function hydrateUsers(list: UserRecord[]) {
+  users.clear();
+  for (const u of list) users.set(u.sub, u);
+}
+
 export function ensureUser(sub: string, name: string, ownerSub = process.env.OWNER_OIDC_SUB ?? ""): UserRecord {
   const existing = users.get(sub);
   if (existing) return existing;
   const u: UserRecord = { sub, name, role: ownerSub && sub === ownerSub ? "owner" : "viewer", active: true };
   users.set(sub, u);
+  sinks.user?.(u);
   recordAudit({ actorId: "system", action: "user.create", entity: "User", entityId: sub, before: null, after: { name, role: u.role } });
   return u;
 }
@@ -53,6 +60,7 @@ export function setRole(sub: string, role: unknown, active?: boolean): { user: U
   const before = { role: u.role, active: u.active };
   u.role = role;
   u.active = nextActive;
+  sinks.user?.(u);
   return { user: u, before };
 }
 

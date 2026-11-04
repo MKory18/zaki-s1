@@ -2,10 +2,12 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { can } from "@/core/permissions";
+import { ensureHydrated } from "@/lib/persist";
 import { SESSION_COOKIE, getSecret, readSession } from "@/lib/session";
 import { getUser, type UserRecord } from "@/lib/users";
 
 export async function getCurrentUser(): Promise<UserRecord | null> {
+  await ensureHydrated();
   const token = (await cookies()).get(SESSION_COOKIE)?.value;
   const s = readSession(token, getSecret());
   if (!s) return null;
