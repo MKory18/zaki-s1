@@ -36,7 +36,7 @@ describe.skipIf(!has)("البذور والإعدادات على قاعدة حق�
     expect(await d.market.count()).toBe(2);
     expect(await d.testPage.count()).toBe(3);
     expect(await d.keyword.count()).toBe(18);
-    expect((await listSettings(d)).filter((s) => !s.key.startsWith("test.") && !s.key.startsWith("gateway.")).length).toBe(79);
+    expect((await listSettings(d)).filter((s) => !s.key.startsWith("test.") && !s.key.startsWith("gateway.")).length).toBe(87);
     expect(first.problems.total).toBe(22);
   });
 
@@ -52,7 +52,7 @@ describe.skipIf(!has)("البذور والإعدادات على قاعدة حق�
       problems: await d.problem.count(),
       claims: await d.claimRule.count(),
       keywords: await d.keyword.count(),
-      settings: await d.setting.count(),
+      creators: await d.setting.count({ where: { key: "reject.max_creators" } }),
     };
     await setSetting(d, "reject.max_creators", { label: "أقصى عدد صنّاع", raw: "350" }, "owner-1");
     const second = await importSeeds(d, data);
@@ -60,7 +60,9 @@ describe.skipIf(!has)("البذور والإعدادات على قاعدة حق�
     expect(await d.problem.count()).toBe(before.problems);
     expect(await d.claimRule.count()).toBe(before.claims);
     expect(await d.keyword.count()).toBe(before.keywords);
-    expect(await d.setting.count()).toBe(before.settings + 1); // النسخة 2 بس
+    // إعادة الاستيراد ما أضافت نسخ: نسخة المالك الجديدة بس (باقي المفاتيح بتتغيّر من اختبارات تانية بنفس الوقت، فبنفحص المفتاح نفسه)
+    expect(await d.setting.count({ where: { key: "reject.max_creators" } })).toBe(before.creators + 1);
+    expect(await d.setting.count({ where: { key: "velocity.w.age" } })).toBe(1);
     expect(((await getSetting(d, "reject.max_creators"))!.value as { raw: string }).raw).toBe("350");
   });
 

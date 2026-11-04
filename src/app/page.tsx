@@ -18,6 +18,7 @@ export default async function HomePage() {
         {can(user.role, "prompts.manage") && <Link href="/prompts">مركز البرومبتات</Link>}
         {can(user.role, "prompts.manage") && <Link href="/gateway">بوابة الموديلات</Link>}
         {can(user.role, "users.manage") && <Link href="/users">المستخدمين والأدوار</Link>}
+        {can(user.role, "settings.manage") && <Link href="/integrations">الربط بالأنظمة</Link>}
         {can(user.role, "settings.manage") && <Link href="/admin/db">فحص القاعدة</Link>}
         <form action="/api/auth/logout" method="post">
           <button type="submit">خروج</button>

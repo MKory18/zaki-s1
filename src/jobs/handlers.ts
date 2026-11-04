@@ -2,6 +2,7 @@
 import { getDb } from "@/lib/db";
 import { raiseAlert } from "@/lib/alerts";
 import { runAgent } from "@/agents/service";
+import { retryDue } from "@/adapters/outbox";
 import { JOBS } from "./registry";
 import type { Handler } from "./queue";
 
@@ -9,6 +10,11 @@ const pending: Handler = async () => ({ skipped: true, reason: "الوحدة ل�
 
 export const HANDLERS: Record<string, Handler> = {
   ...Object.fromEntries(JOBS.map((j) => [j.name, pending])),
+  // إعادة الطلبات الصادرة المعلّقة اللي حان موعدها (كل 5 دقايق)
+  "outbound.retry": async () => {
+    const rows = await retryDue(getDb());
+    return { retried: rows.length, ok: rows.filter((r) => r.status === "ok").length, dead: rows.filter((r) => r.status === "dead").length };
+  },
   // تشغيل وكيل بطلب: { code, vars }
   "agent.run": async (data) => {
     const code = String(data.code ?? "");

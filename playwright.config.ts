@@ -27,6 +27,8 @@ export default defineConfig({
         AUTH_DEV_OWNER: "1",
         GLM_API_KEY: "e2e-glm-key-must-not-leak", // scan:ok
         KIMI_API_KEY: "e2e-kimi-key-must-not-leak", // scan:ok
+        WEBHOOK_SECRET_PRODUCTION: "e2e-webhook-secret-production", // scan:ok
+        S1_TOKEN_PRODUCTION: "e2e-reader-token-production", // scan:ok
       },
     },
   ],

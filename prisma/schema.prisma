@@ -868,11 +868,13 @@ model InboundEvent {
   updatedAt   DateTime  @updatedAt @db.Timestamptz(6)
   system      String
   eventType   String
+  eventId     String?
   signatureOk Boolean
   payloadJson Json
   processedAt DateTime? @db.Timestamptz(6)
   error       String?
 
+  @@unique([system, eventId])
   @@index([system, eventType])
 }
 

@@ -182,6 +182,10 @@ export async function importSeeds(db: PrismaClient, data: SeedData = loadSeedDat
   await seedSetting("agents.budgets", { label: "ميزانيات الوكلاء اليومية (سقوف)", items: data.agentBudgets });
   for (const [name, items] of Object.entries(data.templates)) await seedSetting(`template.${name}`, { label: `قالب: ${name}`, items });
   await seedSetting("launch.checklist", { label: "قائمة حزمة الإطلاق", items: data.launchChecklist });
+  // وضع الربط لكل نظام: وهمي (الافتراضي) أو حقيقي. العناوين والتوكنات بـ .env بس.
+  for (const [sys, name] of Object.entries({ oms: "الـ OMS", production: "نظام الإنتاج", mediabuyer: "الميديا باير", finance: "المالية", workspace: "مساحة العمل", tasks: "نظام المهام", clipper: "الكليبر", crisis: "الأزمات" })) {
+    await seedSetting(`integration.${sys}`, { label: `وضع الربط مع ${name} (mock = وهمي، real = حقيقي)`, raw: "mock" });
+  }
   // درجات الموديلات: الأسماء الفعلية بتنحط من الإعدادات (أسماء الموديلات بتتغيّر بسرعة)
   await seedSetting("agents.tiers", {
     label: "درجات الموديلات: لكل درجة موديل أساسي وبديل (معرّفات موديلات البوابة)",

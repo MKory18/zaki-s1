@@ -9,6 +9,10 @@ const PUBLIC = new Set([
   "src/app/api/auth/callback/route.ts",
   "src/app/api/auth/logout/route.ts",
   "src/app/api/auth/dev-login/route.ts",
+  // محمية بتوقيع الحدث أو بتوكن كل نظام (مش بجلسة موظف)
+  "src/app/api/s1/v1/webhooks/[system]/route.ts",
+  "src/app/api/s1/v1/products/[ref]/compliance/route.ts",
+  "src/app/api/s1/v1/candidates/route.ts",
 ]);
 
 function walk(dir: string): string[] {
