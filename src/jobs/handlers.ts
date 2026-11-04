@@ -7,10 +7,18 @@ import { makeExplainer } from "@/lib/dna-explain";
 import { runLearning } from "@/lib/dna";
 import { googleTrendsReminder, runSource } from "@/sources/run";
 import { assembleCards, runCompute, runDedupe, runNormalize, runScanner, runScreen, runVerifier } from "@/pipeline/stages";
+import type { ReportKind } from "@/reports/data";
+import { generateReport } from "@/reports/service";
 import { JOBS } from "./registry";
 import type { Handler } from "./queue";
 
 const pending: Handler = async () => ({ skipped: true, reason: "الوحدة لسا ما انبنت" });
+
+async function reportJob(kind: ReportKind) {
+  const r = await generateReport(getDb(), kind);
+  if (r.sendError) throw new Error(`التقرير انحفظ بس الإرسال لتيليجرام فشل: ${r.sendError}`); // BullMQ بيعيد بعد 15 دقيقة، والتقرير ما بينكتب مرتين
+  return { id: r.id, period: r.period, source: r.source, reused: r.reused, sent: r.sent, telegramMock: r.telegramMock };
+}
 
 export const HANDLERS: Record<string, Handler> = {
   ...Object.fromEntries(JOBS.map((j) => [j.name, pending])),
@@ -47,6 +55,10 @@ export const HANDLERS: Record<string, Handler> = {
     const rows = await retryDue(getDb());
     return { retried: rows.length, ok: rows.filter((r) => r.status === "ok").length, dead: rows.filter((r) => r.status === "dead").length };
   },
+  // التقارير (9 الصبح · الأحد · أول الشهر): الأرقام من الكود، وإعادة المهمة ما بتكرّر الإرسال (مفتاح فريد: النوع + الفترة)
+  "report.morning": async () => reportJob("morning"),
+  "report.weekly": async () => reportJob("weekly"),
+  "report.monthly": async () => reportJob("monthly"),
   // تشغيل وكيل بطلب: { code, vars }
   "agent.run": async (data) => {
     const code = String(data.code ?? "");

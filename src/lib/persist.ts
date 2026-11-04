@@ -7,6 +7,7 @@ import { hydrateAudit, type AuditEntry } from "@/lib/audit";
 import { sinks } from "@/lib/hooks";
 import { hydrateUsers, type UserRecord } from "@/lib/users";
 import { isRole } from "@/core/permissions";
+import { installAlertRouting, shouldNotifyTelegram } from "@/telegram/alerts";
 
 const g = globalThis as unknown as { __s1Hydrate?: Promise<void>; __s1Chain?: Promise<unknown> };
 
@@ -50,7 +51,8 @@ function installSinks() {
       }),
     );
   sinks.alert = (a: AlertEntry) =>
-    track(() => getDb().alert.create({ data: { type: a.type, severity: a.severity, message: a.message, link: a.link, channels: [], createdAt: new Date(a.at) } }));
+    track(() => getDb().alert.create({ data: { type: a.type, severity: a.severity, message: a.message, link: a.link, channels: shouldNotifyTelegram(a) ? ["panel", "telegram"] : ["panel"], createdAt: new Date(a.at) } }));
+  installAlertRouting();
 }
 
 async function hydrate() {

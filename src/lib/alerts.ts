@@ -24,6 +24,7 @@ export function raiseAlert(a: Omit<AlertEntry, "id" | "at" | "link"> & { link?: 
   state.list.push(entry);
   if (state.list.length > 2000) state.list.shift();
   sinks.alert?.(entry);
+  sinks.notify?.(entry);
   return entry;
 }
 
