@@ -2,6 +2,7 @@
 import { can, type Action } from "@/core/permissions";
 import { recordAudit } from "@/lib/audit";
 import { SESSION_COOKIE, getSecret, parseCookies, readSession } from "@/lib/session";
+import { drain, ensureHydrated } from "@/lib/persist";
 import { getUser, type UserRecord } from "@/lib/users";
 
 export function apiError(status: number, code: string, message: string) {
@@ -16,7 +17,8 @@ export interface GuardContext<P> {
   audit: (entity: string, entityId: string | null, before: unknown, after: unknown) => void;
 }
 
-export function currentUserFromRequest(req: Request): UserRecord | null {
+export async function currentUserFromRequest(req: Request): Promise<UserRecord | null> {
+  await ensureHydrated();
   const token = parseCookies(req.headers.get("cookie"))[SESSION_COOKIE];
   const s = readSession(token, getSecret());
   if (!s) return null;
@@ -29,9 +31,11 @@ type RouteCtx<P> = { params: Promise<P> };
 // نقاط بدها دخول بس (مثل «مين أنا»)، بلا إجراء محدد. استعمالها نادر ومقصود.
 export function guardAuthenticated(handler: (ctx: { req: Request; user: UserRecord }) => Promise<Response> | Response) {
   return async (req: Request): Promise<Response> => {
-    const user = currentUserFromRequest(req);
+    const user = await currentUserFromRequest(req);
     if (!user) return apiError(401, "unauthenticated", "لازم تسجّل دخول أول");
-    return handler({ req, user });
+    const res = await handler({ req, user });
+    await drain();
+    return res;
   };
 }
 
@@ -40,7 +44,7 @@ export function guard<P = Record<string, never>>(
   handler: (ctx: GuardContext<P>) => Promise<Response> | Response,
 ) {
   return async (req: Request, routeCtx?: RouteCtx<P>): Promise<Response> => {
-    const user = currentUserFromRequest(req);
+    const user = await currentUserFromRequest(req);
     if (!user) return apiError(401, "unauthenticated", "لازم تسجّل دخول أول");
     if (!can(user.role, action)) return apiError(403, "forbidden", "ما عندك صلاحية لهالإجراء");
 
@@ -63,6 +67,7 @@ export function guard<P = Record<string, never>>(
         after: { method: req.method, status: res.status },
       });
     }
+    await drain(); // الكتابات المعلّقة بالقاعدة (تدقيق ومستخدمين) لازم تخلص قبل الرد
     return res;
   };
 }

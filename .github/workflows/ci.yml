@@ -46,6 +46,8 @@ jobs:
         run: npm run db:generate
       - name: ترحيل القاعدة (على قاعدة فاضية)
         run: npm run db:migrate
+      - name: البذور (آمنة للتكرار)
+        run: npm run db:seed
       - name: الأنواع
         run: npm run typecheck
       - name: فحص الأسرار

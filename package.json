@@ -13,7 +13,9 @@
     "test:e2e": "playwright test",
     "secrets": "node tools/secret-scan.mjs",
     "db:generate": "prisma generate",
-    "db:migrate": "prisma migrate deploy"
+    "db:migrate": "prisma migrate deploy",
+    "db:seed": "tsx prisma/seed.ts",
+    "seeds:build": "python tools/build_seeds.py"
   },
   "dependencies": {
     "@prisma/adapter-pg": "7.10.1",

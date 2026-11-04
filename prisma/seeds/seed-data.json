@@ -1,0 +1,2101 @@
+{
+  "dnaReferences": [
+    {
+      "name": "ماء الكمأة",
+      "traits": {
+        "الفئة": "علاجي حساس (عين)",
+        "الشكل والحجم": "قطرة 30 مل",
+        "وضوح المشكلة": "عالي",
+        "المشكلة بتنشاف؟": "—",
+        "المشكلة مخجلة؟": "—",
+        "سرعة النتيجة الملموسة": "—",
+        "التكرار ومدة الاستهلاك": "—",
+        "تكلفة الوحدة": "1.56 دينار = 2.20$",
+        "قابلية العرض بالفيديو": "—",
+        "الزاوية التراثية أو الدينية": "نص نبوي صحيح عن الكمأة",
+        "مكونات مميزة": "ماء زمزم · رائحة كمأة واضحة",
+        "عناصر الثقة": "باركود ضد التقليد · الحجم 30 مل مش 20",
+        "الحساسية التنظيمية": "عالية — منتج عين · نص زمزم مختلف فيه",
+        "الأداء": "من الـ OMS"
+      }
+    },
+    {
+      "name": "بديل الليزر",
+      "traits": {
+        "الفئة": "تجميل",
+        "الشكل والحجم": "—",
+        "وضوح المشكلة": "عالي",
+        "المشكلة بتنشاف؟": "نعم",
+        "المشكلة مخجلة؟": "—",
+        "سرعة النتيجة الملموسة": "—",
+        "التكرار ومدة الاستهلاك": "—",
+        "تكلفة الوحدة": "—",
+        "قابلية العرض بالفيديو": "نتيجة بتنشاف",
+        "الزاوية التراثية أو الدينية": "بلا",
+        "مكونات مميزة": "—",
+        "عناصر الثقة": "—",
+        "الحساسية التنظيمية": "ادعاء مقارن",
+        "الأداء": "من الـ OMS"
+      }
+    },
+    {
+      "name": "طنين الأذن",
+      "traits": {
+        "الفئة": "علاجي (أذن)",
+        "الشكل والحجم": "قطرة —",
+        "وضوح المشكلة": "عالي",
+        "المشكلة بتنشاف؟": "لا",
+        "المشكلة مخجلة؟": "—",
+        "سرعة النتيجة الملموسة": "—",
+        "التكرار ومدة الاستهلاك": "—",
+        "تكلفة الوحدة": "1.61 دينار = 2.27$",
+        "قابلية العرض بالفيديو": "—",
+        "الزاوية التراثية أو الدينية": "بلا",
+        "مكونات مميزة": "—",
+        "عناصر الثقة": "—",
+        "الحساسية التنظيمية": "عالية",
+        "الأداء": "من الـ OMS"
+      }
+    }
+  ],
+  "brands": [
+    {
+      "name": "VARA",
+      "usage": "مرجع هوية · تجنّب تشابه"
+    },
+    {
+      "name": "المبارك",
+      "usage": "مرجع هوية · تجنّب تشابه"
+    },
+    {
+      "name": "بركة",
+      "usage": "مرجع هوية · تجنّب تشابه"
+    },
+    {
+      "name": "راحة هيمو",
+      "usage": "مرجع هوية · تجنّب تشابه"
+    },
+    {
+      "name": "ماء الكمأة",
+      "usage": "مرجع حمض · مرجع هوية"
+    },
+    {
+      "name": "غلاديوس",
+      "usage": "خط كريمات رجالي بيتصنّع بالأردن · مرجع هوية"
+    }
+  ],
+  "knownCosts": [
+    {
+      "product": "قطرة طنين الأذن",
+      "jod": "1.61",
+      "usd": "2.27"
+    },
+    {
+      "product": "ماء الكمأة",
+      "jod": "1.56",
+      "usd": "2.20"
+    },
+    {
+      "product": "كريم الندبات",
+      "jod": "2.26",
+      "usd": "3.19"
+    },
+    {
+      "product": "كريم فطريات الأظافر",
+      "jod": "2.26",
+      "usd": "3.19"
+    },
+    {
+      "product": "كريم حرير",
+      "jod": "3.15",
+      "usd": "4.44"
+    },
+    {
+      "product": "طاقية إنبات الشعر",
+      "jod": "19.00",
+      "usd": "26.79"
+    }
+  ],
+  "problems": [
+    {
+      "nameAr": "تساقط الشعر",
+      "keywordsAr": [
+        "تساقط الشعر",
+        "زيت للشعر",
+        "تساقط الشعر طبيعي"
+      ],
+      "keywordsEn": [
+        "hair growth oil",
+        "hair loss serum",
+        "rosemary oil"
+      ],
+      "keywordsZh": [
+        "防脱",
+        "生发",
+        "防脱洗发水"
+      ]
+    },
+    {
+      "nameAr": "الشيب",
+      "keywordsAr": [
+        "صبغة طبيعية للشيب",
+        "حناء وكتم",
+        "الشعر الأبيض"
+      ],
+      "keywordsEn": [
+        "natural grey hair dye",
+        "henna hair dye"
+      ],
+      "keywordsZh": [
+        "白发转黑",
+        "植物染发",
+        "染发膏"
+      ]
+    },
+    {
+      "nameAr": "القشرة",
+      "keywordsAr": [
+        "القشرة",
+        "شامبو سدر"
+      ],
+      "keywordsEn": [
+        "anti dandruff shampoo",
+        "scalp scrub"
+      ],
+      "keywordsZh": [
+        "去屑",
+        "头皮屑",
+        "控油去屑"
+      ]
+    },
+    {
+      "nameAr": "جفاف الشعر وتقصفه",
+      "keywordsAr": [
+        "زيت أركان للشعر",
+        "ماسك شعر طبيعي"
+      ],
+      "keywordsEn": [
+        "argan oil hair",
+        "hair mask"
+      ],
+      "keywordsZh": [
+        "发膜",
+        "护发精油"
+      ]
+    },
+    {
+      "nameAr": "حب الشباب",
+      "keywordsAr": [
+        "حب الشباب",
+        "غسول للحبوب"
+      ],
+      "keywordsEn": [
+        "acne cleanser",
+        "pimple patch",
+        "acne serum"
+      ],
+      "keywordsZh": [
+        "祛痘",
+        "痘痘",
+        "闭口"
+      ]
+    },
+    {
+      "nameAr": "الندبات وآثار الحبوب",
+      "keywordsAr": [
+        "كريم ندبات",
+        "آثار الحبوب"
+      ],
+      "keywordsEn": [
+        "scar cream",
+        "acne scar"
+      ],
+      "keywordsZh": [
+        "祛疤",
+        "疤痕膏",
+        "痘印"
+      ]
+    },
+    {
+      "nameAr": "التصبغات والكلف",
+      "keywordsAr": [
+        "كلف",
+        "تصبغات",
+        "توحيد لون البشرة"
+      ],
+      "keywordsEn": [
+        "dark spot corrector",
+        "melasma"
+      ],
+      "keywordsZh": [
+        "祛斑",
+        "淡斑",
+        "黄褐斑"
+      ]
+    },
+    {
+      "nameAr": "الهالات السوداء",
+      "keywordsAr": [
+        "الهالات السوداء",
+        "كريم تحت العين"
+      ],
+      "keywordsEn": [
+        "dark circles eye cream"
+      ],
+      "keywordsZh": [
+        "黑眼圈",
+        "眼霜"
+      ]
+    },
+    {
+      "nameAr": "جفاف البشرة",
+      "keywordsAr": [
+        "كريم ترطيب طبيعي"
+      ],
+      "keywordsEn": [
+        "natural moisturizer",
+        "body butter"
+      ],
+      "keywordsZh": [
+        "保湿霜",
+        "身体乳"
+      ]
+    },
+    {
+      "nameAr": "تشققات الكعب واليدين",
+      "keywordsAr": [
+        "تشققات الكعب",
+        "كريم للقدمين"
+      ],
+      "keywordsEn": [
+        "cracked heel cream",
+        "foot mask"
+      ],
+      "keywordsZh": [
+        "脚后跟干裂",
+        "手足皲裂",
+        "足膜"
+      ]
+    },
+    {
+      "nameAr": "علامات التمدد",
+      "keywordsAr": [
+        "علامات التمدد",
+        "تشققات الحمل"
+      ],
+      "keywordsEn": [
+        "stretch marks cream"
+      ],
+      "keywordsZh": [
+        "妊娠纹",
+        "生长纹"
+      ]
+    },
+    {
+      "nameAr": "فطريات الأظافر",
+      "keywordsAr": [
+        "فطريات الأظافر"
+      ],
+      "keywordsEn": [
+        "nail fungus"
+      ],
+      "keywordsZh": [
+        "灰指甲"
+      ]
+    },
+    {
+      "nameAr": "فطريات القدم ورائحتها",
+      "keywordsAr": [
+        "رائحة القدم",
+        "فطريات القدم"
+      ],
+      "keywordsEn": [
+        "athlete's foot",
+        "foot odor spray"
+      ],
+      "keywordsZh": [
+        "脚气",
+        "脚臭"
+      ]
+    },
+    {
+      "nameAr": "رائحة الجسم والتعرق",
+      "keywordsAr": [
+        "مزيل عرق طبيعي",
+        "شبة"
+      ],
+      "keywordsEn": [
+        "natural deodorant",
+        "alum stone"
+      ],
+      "keywordsZh": [
+        "狐臭",
+        "止汗露"
+      ]
+    },
+    {
+      "nameAr": "رائحة الفم واللثة",
+      "keywordsAr": [
+        "رائحة الفم",
+        "سواك"
+      ],
+      "keywordsEn": [
+        "bad breath",
+        "miswak toothpaste"
+      ],
+      "keywordsZh": [
+        "口臭",
+        "牙龈"
+      ]
+    },
+    {
+      "nameAr": "اصفرار الأسنان",
+      "keywordsAr": [
+        "تبييض الأسنان طبيعي"
+      ],
+      "keywordsEn": [
+        "teeth whitening powder"
+      ],
+      "keywordsZh": [
+        "美白牙齿",
+        "牙结石"
+      ]
+    },
+    {
+      "nameAr": "آلام المفاصل والعضلات",
+      "keywordsAr": [
+        "ألم المفاصل",
+        "كريم مساج"
+      ],
+      "keywordsEn": [
+        "joint pain cream",
+        "muscle rub"
+      ],
+      "keywordsZh": [
+        "关节痛",
+        "膏药",
+        "颈椎"
+      ]
+    },
+    {
+      "nameAr": "البواسير",
+      "keywordsAr": [
+        "البواسير",
+        "كريم بواسير"
+      ],
+      "keywordsEn": [
+        "hemorrhoid cream"
+      ],
+      "keywordsZh": [
+        "痔疮"
+      ]
+    },
+    {
+      "nameAr": "العين",
+      "keywordsAr": [
+        "قطرة عيون طبيعية",
+        "ماء الكمأة"
+      ],
+      "keywordsEn": [
+        "eye drops dry eyes"
+      ],
+      "keywordsZh": [
+        "眼干",
+        "眼药水"
+      ]
+    },
+    {
+      "nameAr": "طنين الأذن",
+      "keywordsAr": [
+        "طنين الأذن",
+        "صفير الأذن"
+      ],
+      "keywordsEn": [
+        "tinnitus relief"
+      ],
+      "keywordsZh": [
+        "耳鸣"
+      ]
+    },
+    {
+      "nameAr": "إزالة الشعر",
+      "keywordsAr": [
+        "إزالة الشعر بالبيت",
+        "حلاوة"
+      ],
+      "keywordsEn": [
+        "hair removal cream",
+        "sugaring"
+      ],
+      "keywordsZh": [
+        "脱毛膏",
+        "脱毛"
+      ]
+    },
+    {
+      "nameAr": "عناية الرجل",
+      "keywordsAr": [
+        "منتجات عناية الرجل"
+      ],
+      "keywordsEn": [
+        "men's care"
+      ],
+      "keywordsZh": [
+        "男士护理"
+      ]
+    }
+  ],
+  "trendKeywords": [
+    {
+      "lang": "zh",
+      "words": [
+        "爆款",
+        "新品",
+        "好物推荐",
+        "回购",
+        "草本",
+        "古方",
+        "中药",
+        "纯天然"
+      ]
+    },
+    {
+      "lang": "en",
+      "words": [
+        "viral",
+        "TikTok made me buy it",
+        "best seller",
+        "natural",
+        "herbal"
+      ]
+    },
+    {
+      "lang": "ar",
+      "words": [
+        "ترند",
+        "الأكثر مبيعاً",
+        "طبيعي",
+        "أعشاب",
+        "وصفة جدتي"
+      ]
+    }
+  ],
+  "referenceTexts": [
+    {
+      "code": "REF-01",
+      "ingredient": "الكمأة",
+      "text": "«الكمأة من المنّ، وماؤها شفاء للعين»",
+      "source": "البخاري ومسلم",
+      "grading": "متفق عليه",
+      "reviewRaw": "بانتظار المراجع"
+    },
+    {
+      "code": "REF-02",
+      "ingredient": "الحبة السوداء",
+      "text": "«في الحبة السوداء شفاء من كل داء إلا السام»",
+      "source": "البخاري ومسلم",
+      "grading": "متفق عليه",
+      "reviewRaw": "بانتظار المراجع"
+    },
+    {
+      "code": "REF-03",
+      "ingredient": "العسل",
+      "text": "«فيه شفاء للناس»",
+      "source": "القرآن الكريم — النحل 69",
+      "grading": "قرآن",
+      "reviewRaw": "بانتظار المراجع"
+    },
+    {
+      "code": "REF-04",
+      "ingredient": "زيت الزيتون",
+      "text": "«كلوا الزيت وادّهنوا به، فإنه من شجرة مباركة»",
+      "source": "الترمذي",
+      "grading": "صححه الألباني",
+      "reviewRaw": "بانتظار المراجع"
+    },
+    {
+      "code": "REF-05",
+      "ingredient": "القسط",
+      "text": "«عليكم بهذا العود الهندي، فإن فيه سبعة أشفية»",
+      "source": "البخاري 5692، ومسلم بنحوه 2214",
+      "grading": "صحيح",
+      "reviewRaw": "بانتظار المراجع"
+    },
+    {
+      "code": "REF-06",
+      "ingredient": "الإثمد",
+      "text": "«عليكم بالإثمد عند النوم، فإنه يجلو البصر ويُنبت الشعر»",
+      "source": "ابن ماجه 3496، والترمذي بنحوه",
+      "grading": "صححه الألباني",
+      "reviewRaw": "بانتظار المراجع"
+    },
+    {
+      "code": "REF-07",
+      "ingredient": "الحناء والكتم",
+      "text": "«إن أحسن ما غُيّر به هذا الشيب الحناء والكتم»",
+      "source": "أبو داود والترمذي والنسائي",
+      "grading": "صحيح",
+      "reviewRaw": "بانتظار المراجع"
+    },
+    {
+      "code": "REF-08",
+      "ingredient": "السواك",
+      "text": "«السواك مطهرة للفم مرضاة للرب»",
+      "source": "النسائي، وعلّقه البخاري",
+      "grading": "صحيح",
+      "reviewRaw": "بانتظار المراجع"
+    },
+    {
+      "code": "REF-09",
+      "ingredient": "ماء زمزم",
+      "text": "«ماء زمزم لما شُرب له»",
+      "source": "ابن ماجه",
+      "grading": "مختلف في تصحيحه",
+      "reviewRaw": "يوقف لقرار مختص"
+    }
+  ],
+  "heritage": [
+    {
+      "code": "HER-01",
+      "ingredient": "الورد الدمشقي",
+      "origin": "سوريا",
+      "usage": "سيروم · ماء ورد · كريمات",
+      "angle": "علامة سورية فاخرة"
+    },
+    {
+      "code": "HER-02",
+      "ingredient": "الصابون الحلبي (زيت الغار)",
+      "origin": "سوريا",
+      "usage": "صابون · شامبو صلب",
+      "angle": "حرفة عمرها قرون"
+    },
+    {
+      "code": "HER-03",
+      "ingredient": "الصابون النابلسي",
+      "origin": "فلسطين",
+      "usage": "صابون زيت الزيتون",
+      "angle": "تراث فلسطيني"
+    },
+    {
+      "code": "HER-04",
+      "ingredient": "أملاح وطين البحر الميت",
+      "origin": "الأردن",
+      "usage": "ماسكات · أملاح · كريمات",
+      "angle": "علامة أردنية"
+    },
+    {
+      "code": "HER-05",
+      "ingredient": "زيت الزيتون البلدي",
+      "origin": "الشام",
+      "usage": "زيوت · كريمات · صابون",
+      "angle": "الأرض والبركة"
+    },
+    {
+      "code": "HER-06",
+      "ingredient": "الغاسول",
+      "origin": "المغرب",
+      "usage": "ماسكات · غسول",
+      "angle": "حمّام مغربي"
+    },
+    {
+      "code": "HER-07",
+      "ingredient": "الأركان",
+      "origin": "المغرب",
+      "usage": "زيوت · سيروم شعر",
+      "angle": "الذهب السائل"
+    },
+    {
+      "code": "HER-08",
+      "ingredient": "السدر",
+      "origin": "الجزيرة والشام",
+      "usage": "شامبو · غسول",
+      "angle": "وصفات الجدّات"
+    },
+    {
+      "code": "HER-09",
+      "ingredient": "اللبان والمر",
+      "origin": "عُمان واليمن",
+      "usage": "كريمات · زيوت",
+      "angle": "طريق البخور"
+    },
+    {
+      "code": "HER-10",
+      "ingredient": "العود",
+      "origin": "الخليج",
+      "usage": "عطور · زيوت",
+      "angle": "الفخامة"
+    },
+    {
+      "code": "HER-11",
+      "ingredient": "الزعتر وإكليل الجبل",
+      "origin": "الشام",
+      "usage": "زيوت شعر · غسول",
+      "angle": "المطبخ والجبل"
+    },
+    {
+      "code": "HER-12",
+      "ingredient": "الحلاوة (السكر والليمون)",
+      "origin": "الشام ومصر",
+      "usage": "إزالة الشعر",
+      "angle": "طريقة الأمهات"
+    },
+    {
+      "code": "HER-13",
+      "ingredient": "الشبّة",
+      "origin": "المنطقة كلها",
+      "usage": "مزيل عرق",
+      "angle": "قديم ومجرّب"
+    }
+  ],
+  "ingredients": [
+    {
+      "nameAr": "زيت الزيتون",
+      "nameEn": "Olea Europaea (Olive) Fruit Oil",
+      "usage": "ترطيب · صابون · زيوت",
+      "safetyNote": "—"
+    },
+    {
+      "nameAr": "الحبة السوداء",
+      "nameEn": "Nigella Sativa Seed Oil",
+      "usage": "زيوت شعر وبشرة",
+      "safetyNote": "ممكن تحسس عند البعض"
+    },
+    {
+      "nameAr": "العسل",
+      "nameEn": "Mel (Honey)",
+      "usage": "ماسكات · ترطيب · شفاه",
+      "safetyNote": "—"
+    },
+    {
+      "nameAr": "شمع العسل",
+      "nameEn": "Cera Alba (Beeswax)",
+      "usage": "بلسم · كريمات",
+      "safetyNote": "—"
+    },
+    {
+      "nameAr": "الأركان",
+      "nameEn": "Argania Spinosa Kernel Oil",
+      "usage": "شعر · بشرة",
+      "safetyNote": "—"
+    },
+    {
+      "nameAr": "إكليل الجبل",
+      "nameEn": "Rosmarinus Officinalis Leaf Oil",
+      "usage": "شعر وفروة",
+      "safetyNote": "زيت عطري — بيتخفف"
+    },
+    {
+      "nameAr": "الزعتر",
+      "nameEn": "Thymus Vulgaris Oil",
+      "usage": "غسول · قدم",
+      "safetyNote": "زيت عطري قوي — بيتخفف"
+    },
+    {
+      "nameAr": "القرنفل",
+      "nameEn": "Eugenia Caryophyllus Bud Oil",
+      "usage": "فم · قدم",
+      "safetyNote": "ممكن يهيّج — بيتخفف"
+    },
+    {
+      "nameAr": "السدر",
+      "nameEn": "Ziziphus Spina-Christi (Sidr) Leaf Powder",
+      "usage": "شامبو · غسول",
+      "safetyNote": "—"
+    },
+    {
+      "nameAr": "الحناء",
+      "nameEn": "Lawsonia Inermis Leaf Powder",
+      "usage": "صبغة شعر",
+      "safetyNote": "الطبيعية بس — «الحناء السوداء» خطر"
+    },
+    {
+      "nameAr": "الكتم",
+      "nameEn": "Katam",
+      "usage": "صبغة مع الحناء",
+      "safetyNote": "—"
+    },
+    {
+      "nameAr": "الورد الدمشقي",
+      "nameEn": "Rosa Damascena Flower Water / Oil",
+      "usage": "تونر · كريمات",
+      "safetyNote": "—"
+    },
+    {
+      "nameAr": "الغاسول",
+      "nameEn": "Moroccan Lava Clay",
+      "usage": "ماسكات · غسول",
+      "safetyNote": "—"
+    },
+    {
+      "nameAr": "طين البحر الميت",
+      "nameEn": "Maris Limus (Dead Sea Mud)",
+      "usage": "ماسكات",
+      "safetyNote": "—"
+    },
+    {
+      "nameAr": "أملاح البحر الميت",
+      "nameEn": "Maris Sal",
+      "usage": "أملاح استحمام · مقشّرات",
+      "safetyNote": "—"
+    },
+    {
+      "nameAr": "اللبان",
+      "nameEn": "Boswellia Carterii Oil",
+      "usage": "كريمات",
+      "safetyNote": "—"
+    },
+    {
+      "nameAr": "المر",
+      "nameEn": "Commiphora Myrrha Oil",
+      "usage": "كريمات",
+      "safetyNote": "—"
+    },
+    {
+      "nameAr": "العود",
+      "nameEn": "Aquilaria Agallocha Wood Oil",
+      "usage": "عطور",
+      "safetyNote": "—"
+    },
+    {
+      "nameAr": "الشبّة",
+      "nameEn": "Potassium Alum",
+      "usage": "مزيل عرق",
+      "safetyNote": "—"
+    },
+    {
+      "nameAr": "السواك",
+      "nameEn": "Salvadora Persica Extract",
+      "usage": "عناية فم",
+      "safetyNote": "—"
+    },
+    {
+      "nameAr": "العرقسوس",
+      "nameEn": "Glycyrrhiza Glabra Root Extract",
+      "usage": "توحيد لون البشرة",
+      "safetyNote": "—"
+    },
+    {
+      "nameAr": "الصبار",
+      "nameEn": "Aloe Barbadensis Leaf Juice",
+      "usage": "ترطيب · تهدئة",
+      "safetyNote": "—"
+    },
+    {
+      "nameAr": "زيت الخروع",
+      "nameEn": "Ricinus Communis Seed Oil",
+      "usage": "شعر · رموش",
+      "safetyNote": "—"
+    },
+    {
+      "nameAr": "زبدة الشيا",
+      "nameEn": "Butyrospermum Parkii Butter",
+      "usage": "كريمات · بلسم",
+      "safetyNote": "—"
+    },
+    {
+      "nameAr": "الكمأة",
+      "nameEn": "Truffle Extract",
+      "usage": "قطرات (مسار علاجي)",
+      "safetyNote": "منتجات العين معقّمة إلزامي"
+    }
+  ],
+  "banned": [
+    {
+      "nameAr": "الزئبق ومركباته",
+      "statusRaw": "محظور",
+      "why": "تسمم وأذى للجلد والكلى",
+      "fraudWhere": "كريمات التفتيح"
+    },
+    {
+      "nameAr": "الهيدروكينون",
+      "statusRaw": "محظور بالمستحضرات بكتير بلدان (دواء بوصفة)",
+      "why": "تهيّج وتصبغ عكسي",
+      "fraudWhere": "كريمات التفتيح والكلف"
+    },
+    {
+      "nameAr": "الكورتيزونات (مثل كلوبيتاسول وبيتاميثازون)",
+      "statusRaw": "دواء — ممنوع بالمستحضرات",
+      "why": "ترقق الجلد وأضرار",
+      "fraudWhere": "كريمات «عشبية» للجلد والتفتيح"
+    },
+    {
+      "nameAr": "التريتينوين",
+      "statusRaw": "دواء — ممنوع بالمستحضرات",
+      "why": "تهيّج · ممنوع للحامل",
+      "fraudWhere": "كريمات حب الشباب"
+    },
+    {
+      "nameAr": "الرصاص والزرنيخ والكادميوم",
+      "statusRaw": "ملوثات ممنوعة",
+      "why": "تسمم",
+      "fraudWhere": "الكحل والإثمد · الحناء · الطين"
+    },
+    {
+      "nameAr": "مضادات الفطريات والمضادات الحيوية الدوائية",
+      "statusRaw": "دواء — بتحوّل المنتج لعلاجي",
+      "why": "",
+      "fraudWhere": "كريمات الفطريات"
+    },
+    {
+      "nameAr": "المخدّر الموضعي (ليدوكايين · بنزوكايين)",
+      "statusRaw": "دواء",
+      "why": "",
+      "fraudWhere": "منتجات الرجال · المسكّنات"
+    },
+    {
+      "nameAr": "مواد دوائية مخفية (مثل سيلدينافيل)",
+      "statusRaw": "غش دوائي ممنوع",
+      "why": "خطر على القلب",
+      "fraudWhere": "منتجات الرجال «العشبية»"
+    },
+    {
+      "nameAr": "بارافينيلين ديامين (PPD) على الجلد",
+      "statusRaw": "ممنوع على الجلد",
+      "why": "حروق وتحسس شديد",
+      "fraudWhere": "«الحناء السوداء»"
+    },
+    {
+      "nameAr": "الفورمالدهيد",
+      "statusRaw": "مقيّد بشدة",
+      "why": "مهيّج ومصنّف مسرطن",
+      "fraudWhere": "منتجات فرد الشعر"
+    },
+    {
+      "nameAr": "حمض الكوجيك",
+      "statusRaw": "مقيّد بالتركيز",
+      "why": "تهيّج",
+      "fraudWhere": "كريمات التفتيح"
+    }
+  ],
+  "fraudCategories": [
+    {
+      "category": "التفتيح والكلف",
+      "why": "زئبق · هيدروكينون · كورتيزون"
+    },
+    {
+      "category": "كريمات الجلد «العشبية»",
+      "why": "كورتيزون"
+    },
+    {
+      "category": "منتجات الرجال",
+      "why": "مواد دوائية مخفية · مخدّر موضعي"
+    },
+    {
+      "category": "الكحل والإثمد والحناء",
+      "why": "رصاص ومعادن ثقيلة · PPD"
+    },
+    {
+      "category": "منتجات العين",
+      "why": "تلوث وتعقيم"
+    }
+  ],
+  "claims": [
+    {
+      "phrase": "يشفي · شفاء (عن المنتج)",
+      "reason": "ادعاء علاجي",
+      "alternative": "بيساعد على · بيحسّن مظهر"
+    },
+    {
+      "phrase": "يعالج · علاج",
+      "reason": "ادعاء علاجي",
+      "alternative": "عناية بـ…"
+    },
+    {
+      "phrase": "يقضي على الفطريات · يقتل البكتيريا",
+      "reason": "ادعاء علاجي",
+      "alternative": "بينظّف · بيعطي إحساس بالانتعاش"
+    },
+    {
+      "phrase": "ينبت الشعر · يوقف التساقط نهائياً",
+      "reason": "ادعاء علاجي",
+      "alternative": "بيقوّي مظهر الشعر · بيغذّي فروة الراس"
+    },
+    {
+      "phrase": "يزيل الندبات نهائياً",
+      "reason": "مبالغة",
+      "alternative": "بيحسّن مظهر الآثار مع الاستمرار"
+    },
+    {
+      "phrase": "يبيّض · يزيل الكلف",
+      "reason": "حساس وخطر غش",
+      "alternative": "بيوحّد مظهر لون البشرة"
+    },
+    {
+      "phrase": "نتيجة مضمونة 100%",
+      "reason": "وعد ممنوع",
+      "alternative": "النتائج بتختلف من شخص لشخص"
+    },
+    {
+      "phrase": "بدون أي آثار جانبية",
+      "reason": "ادعاء مطلق",
+      "alternative": "جرّبه على منطقة صغيرة قبل الاستخدام"
+    },
+    {
+      "phrase": "معتمد من وزارة الصحة",
+      "reason": "ممنوع بلا تسجيل حقيقي",
+      "alternative": "بس مع رقم التسجيل الصحيح"
+    },
+    {
+      "phrase": "بديل الليزر · أحسن من الطبيب",
+      "reason": "مقارنة غير مثبتة",
+      "alternative": "إزالة شعر بالبيت بسهولة"
+    },
+    {
+      "phrase": "عضوي (بلا شهادة)",
+      "reason": "ادعاء منظّم",
+      "alternative": "طبيعي بنسبة كذا% (الرقم الحقيقي)"
+    },
+    {
+      "phrase": "طبي · صيدلاني (لمنتج تجميلي)",
+      "reason": "بيوحي بدواء",
+      "alternative": "بتركيبة مدروسة"
+    },
+    {
+      "phrase": "من الطب النبوي (عن المنتج نفسه)",
+      "reason": "تحميل النص وعد",
+      "alternative": "من مكونات ذكرها الحديث"
+    },
+    {
+      "phrase": "شفاء للعين (عن المنتج)",
+      "reason": "علاجي + نص ديني",
+      "alternative": "ممنوع — منتج العين بمسار علاجي"
+    },
+    {
+      "phrase": "بيطوّل · بيزيد الأداء",
+      "reason": "ممنوع إعلانياً",
+      "alternative": "زاوية عناية وثقة بس"
+    },
+    {
+      "phrase": "بينحّف · بيذوّب الدهون",
+      "reason": "مقيّد وخارج التركيز",
+      "alternative": "—"
+    }
+  ],
+  "adRules": [
+    {
+      "rule": "ولا مخاطبة الشخص بحالته الصحية",
+      "wrong": "«عندك طنين؟»",
+      "right": "«الطنين بيزعج كتير ناس»"
+    },
+    {
+      "rule": "ولا نظرة سلبية للذات",
+      "wrong": "«شكلك تعبان وكبير»",
+      "right": "«عناية يومية بمكونات طبيعية»"
+    },
+    {
+      "rule": "ولا قبل وبعد لمنتجات الصحة والتنحيف",
+      "wrong": "صورتين جنب بعض",
+      "right": "عرض طريقة الاستخدام والقوام"
+    },
+    {
+      "rule": "ولا ادعاء علاجي لمنتج تجميلي",
+      "wrong": "«بيعالج الفطريات»",
+      "right": "«بينظّف وبيعطي انتعاش»"
+    },
+    {
+      "rule": "النص الديني بحرفه ومصدره وعن المادة",
+      "wrong": "«منتجنا شفاء»",
+      "right": "«الكمأة ذكرها الحديث» مع المصدر"
+    },
+    {
+      "rule": "ولا شهادات مخترعة ولا خبراء وهميين",
+      "wrong": "«د. فلان» وهمي",
+      "right": "زبون حقيقي بموافقته"
+    },
+    {
+      "rule": "ولا «معتمد» بلا رقم تسجيل",
+      "wrong": "«معتمد طبياً»",
+      "right": "رقم التسجيل إذا موجود"
+    },
+    {
+      "rule": "18 وفوق للمنتجات الصحية",
+      "wrong": "استهداف مفتوح",
+      "right": "18 وفوق"
+    },
+    {
+      "rule": "منتجات الأداء الجنسي: بلا تركيز على المتعة أو الأداء",
+      "wrong": "ادعاء أداء",
+      "right": "عناية وثقة"
+    },
+    {
+      "rule": "مراجعة السياسة الحالية للمنصة قبل الإطلاق",
+      "wrong": "الاعتماد على نسخة قديمة",
+      "right": "تاريخ مراجعة أقل من 90 يوم"
+    }
+  ],
+  "intentWords": [
+    {
+      "lang": "zh",
+      "words": [
+        "链接",
+        "求链接",
+        "有链接吗",
+        "链接在哪",
+        "多少钱",
+        "怎么买",
+        "在哪买",
+        "哪里买",
+        "想要",
+        "已下单",
+        "下单了",
+        "已拍",
+        "回购",
+        "求购"
+      ]
+    },
+    {
+      "lang": "ar",
+      "words": [
+        "بكم",
+        "قديش",
+        "شو سعره",
+        "كم السعر",
+        "السعر؟",
+        "كيف بطلب",
+        "كيف اطلب",
+        "بدي واحد",
+        "بدي اطلب",
+        "وين بلاقيه",
+        "وين بينباع",
+        "في توصيل",
+        "بتوصلوا على",
+        "الرابط",
+        "خاص",
+        "راسلتكم",
+        "طلبت",
+        "تم الطلب",
+        "متوفر؟"
+      ]
+    },
+    {
+      "lang": "en",
+      "words": [
+        "link",
+        "price",
+        "how much",
+        "where to buy",
+        "ordered",
+        "need this",
+        "want this"
+      ]
+    }
+  ],
+  "skepticWords": [
+    {
+      "lang": "zh",
+      "words": [
+        "假的",
+        "智商税",
+        "没用",
+        "骗人"
+      ]
+    },
+    {
+      "lang": "ar",
+      "words": [
+        "نصب",
+        "كذب",
+        "ما نفع",
+        "ما بيزبط",
+        "ضحك على الناس"
+      ]
+    },
+    {
+      "lang": "en",
+      "words": [
+        "scam",
+        "fake",
+        "doesn't work"
+      ]
+    }
+  ],
+  "settings": [
+    {
+      "label": "عمر الترند",
+      "key": "velocity.w.age",
+      "raw": "15"
+    },
+    {
+      "label": "تسارع الصنّاع",
+      "key": "velocity.w.creator_ramp",
+      "raw": "15"
+    },
+    {
+      "label": "تعليقات نية الشراء",
+      "key": "velocity.w.intent",
+      "raw": "20"
+    },
+    {
+      "label": "حرارة التفاعل",
+      "key": "velocity.w.engagement",
+      "raw": "10"
+    },
+    {
+      "label": "تعدد البائعين",
+      "key": "velocity.w.multi_seller",
+      "raw": "10"
+    },
+    {
+      "label": "السلة الصفراء",
+      "key": "velocity.w.yellow_cart",
+      "raw": "10"
+    },
+    {
+      "label": "الفراغ بسوقك",
+      "key": "velocity.w.whitespace",
+      "raw": "20"
+    },
+    {
+      "label": "الحد الأدنى لأوزان الإشارات المقاسة",
+      "key": "velocity.min_measured_weight",
+      "raw": "50"
+    },
+    {
+      "label": "الحد الأدنى لعيّنة التعليقات",
+      "key": "velocity.min_comment_sample",
+      "raw": "50"
+    },
+    {
+      "label": "حجم خط أساس التفاعل",
+      "key": "velocity.engagement_baseline_min",
+      "raw": "50 منتج"
+    },
+    {
+      "label": "أقصى عدد صنّاع",
+      "key": "reject.max_creators",
+      "raw": "400"
+    },
+    {
+      "label": "أقصى عمر للترند الصيني",
+      "key": "reject.max_trend_age_days",
+      "raw": "45"
+    },
+    {
+      "label": "أقصى مبيعات تراكمية",
+      "key": "reject.max_cumulative_sales",
+      "raw": "100000"
+    },
+    {
+      "label": "خصم المبيعات 50–100 ألف",
+      "key": "velocity.penalty.50k_100k",
+      "raw": "20"
+    },
+    {
+      "label": "خصم المبيعات 20–50 ألف",
+      "key": "velocity.penalty.20k_50k",
+      "raw": "10"
+    },
+    {
+      "label": "وضوح المشكلة",
+      "key": "dna.w.problem_clarity",
+      "raw": "0.20"
+    },
+    {
+      "label": "سرعة النتيجة",
+      "key": "dna.w.result_speed",
+      "raw": "0.15"
+    },
+    {
+      "label": "التكرار",
+      "key": "dna.w.repeat",
+      "raw": "0.15"
+    },
+    {
+      "label": "شريحة التكلفة",
+      "key": "dna.w.cost_tier",
+      "raw": "0.12"
+    },
+    {
+      "label": "قابلية العرض بالفيديو",
+      "key": "dna.w.demo",
+      "raw": "0.10"
+    },
+    {
+      "label": "الزاوية التراثية أو الدينية",
+      "key": "dna.w.heritage",
+      "raw": "0.08"
+    },
+    {
+      "label": "المشكلة مخجلة",
+      "key": "dna.w.embarrassing",
+      "raw": "0.05"
+    },
+    {
+      "label": "المشكلة بتنشاف",
+      "key": "dna.w.visible",
+      "raw": "0.05"
+    },
+    {
+      "label": "اللوجستيات",
+      "key": "dna.w.logistics",
+      "raw": "0.05"
+    },
+    {
+      "label": "الحساسية التنظيمية",
+      "key": "dna.w.regulatory",
+      "raw": "0.05"
+    },
+    {
+      "label": "ثابت ثقة الوزن المتعلَّم",
+      "key": "dna.confidence_k",
+      "raw": "10"
+    },
+    {
+      "label": "ثابت دمج المتعلَّم مع الافتراضي",
+      "key": "dna.blend_k",
+      "raw": "10"
+    },
+    {
+      "label": "حد «عيّنة صغيرة»",
+      "key": "dna.small_sample",
+      "raw": "3 منتجات"
+    },
+    {
+      "label": "أوزان التشابه (نص · صورة · صفات)",
+      "key": "dna.sim.weights",
+      "raw": "0.5 · 0.3 · 0.2"
+    },
+    {
+      "label": "مسافة بصمة الصورة للتطابق",
+      "key": "dedupe.phash_max",
+      "raw": "8 من 64"
+    },
+    {
+      "label": "تشابه العنوان للتطابق",
+      "key": "dedupe.title_min",
+      "raw": "0.80"
+    },
+    {
+      "label": "تشابه تضمين الصورة للتطابق المباشر",
+      "key": "dedupe.image_emb_min",
+      "raw": "0.92"
+    },
+    {
+      "label": "المنطقة الرمادية (لحَكَم المكرر)",
+      "key": "dedupe.grey",
+      "raw": "بصمة 9–14 أو عنوان 0.70–0.80"
+    },
+    {
+      "label": "بحث معمّق — أدنى مؤشر",
+      "key": "decision.deep.min_velocity",
+      "raw": "65"
+    },
+    {
+      "label": "بحث معمّق — أدنى حمض",
+      "key": "decision.deep.min_dna",
+      "raw": "60"
+    },
+    {
+      "label": "خارج الحمض — أدنى مؤشر",
+      "key": "decision.outside.min_velocity",
+      "raw": "80"
+    },
+    {
+      "label": "راقب — شريحة المؤشر",
+      "key": "decision.watch.velocity",
+      "raw": "45–65"
+    },
+    {
+      "label": "راقب — شريحة الحمض",
+      "key": "decision.watch.dna",
+      "raw": "45–60"
+    },
+    {
+      "label": "مدة المراقبة",
+      "key": "decision.watch.days",
+      "raw": "14 يوم"
+    },
+    {
+      "label": "حصة خارج الحمض من ميزانية الاختبارات",
+      "key": "decision.outside.budget_share",
+      "raw": "20%"
+    },
+    {
+      "label": "عدد المحقق اليومي",
+      "key": "pipeline.verifier_top_n",
+      "raw": "30"
+    },
+    {
+      "label": "عدد الفحص المبدئي (امتثال وجاهزية)",
+      "key": "pipeline.screen_top_n",
+      "raw": "15"
+    },
+    {
+      "label": "عدد التقرير الصباحي",
+      "key": "report.morning_top_n",
+      "raw": "10"
+    },
+    {
+      "label": "نسبة التشكيك الخطرة",
+      "key": "signals.skeptic_risk",
+      "raw": "15%"
+    },
+    {
+      "label": "أوزان المقاييس (استمرار · مشاركة · حفظ · نية · رسائل)",
+      "key": "trend.weights",
+      "raw": "0.2 لكل واحد"
+    },
+    {
+      "label": "خط الأساس",
+      "key": "trend.baseline",
+      "raw": "آخر 60 يوم · 20 فيديو كحد أدنى"
+    },
+    {
+      "label": "معايير قبل خط الأساس (وسيط)",
+      "key": "trend.bench",
+      "raw": "مشاهدة 30% · مشاركة 0.5% · حفظ 1% · نية 5% · رسائل 0.3%"
+    },
+    {
+      "label": "حساب الدرجة قبل خط الأساس",
+      "key": "trend.prebaseline_rule",
+      "raw": "القيمة ÷ (2 × الوسيط)، بحد أقصى 1"
+    },
+    {
+      "label": "حد الصعود — الدرجة",
+      "key": "trend.graduate.min_score",
+      "raw": "70 بلقطة 3 أيام"
+    },
+    {
+      "label": "حد الصعود — الوصول",
+      "key": "trend.graduate.min_reach",
+      "raw": "1000"
+    },
+    {
+      "label": "حد الصعود — تعليقات النية",
+      "key": "trend.graduate.min_intent",
+      "raw": "5"
+    },
+    {
+      "label": "السحب الليلي",
+      "key": "schedule.nightly_pull",
+      "raw": "00:00"
+    },
+    {
+      "label": "الدمج والموحّد",
+      "key": "schedule.dedupe",
+      "raw": "04:00"
+    },
+    {
+      "label": "الحساب بالكود",
+      "key": "schedule.compute",
+      "raw": "05:00"
+    },
+    {
+      "label": "الماسح",
+      "key": "schedule.scanner",
+      "raw": "05:30"
+    },
+    {
+      "label": "المحقق",
+      "key": "schedule.verifier",
+      "raw": "06:30"
+    },
+    {
+      "label": "الفحص المبدئي",
+      "key": "schedule.screen",
+      "raw": "07:30"
+    },
+    {
+      "label": "تجميع البطاقات",
+      "key": "schedule.cards",
+      "raw": "08:30"
+    },
+    {
+      "label": "التقرير الصباحي",
+      "key": "schedule.morning_report",
+      "raw": "09:00"
+    },
+    {
+      "label": "تعلّم الحمض",
+      "key": "schedule.dna_learning",
+      "raw": "السبت 23:00"
+    },
+    {
+      "label": "الأسبوعي",
+      "key": "schedule.weekly_report",
+      "raw": "الأحد 10:00"
+    },
+    {
+      "label": "الشهري",
+      "key": "schedule.monthly_report",
+      "raw": "يوم 1 الساعة 10:00"
+    },
+    {
+      "label": "المنطقة الزمنية",
+      "key": "schedule.tz",
+      "raw": "Asia/Amman"
+    }
+  ],
+  "dnaPoints": [
+    {
+      "attr": "وضوح المشكلة",
+      "options": [
+        {
+          "value": "عالي",
+          "points": 1.0
+        },
+        {
+          "value": "متوسط",
+          "points": 0.6
+        },
+        {
+          "value": "ضعيف",
+          "points": 0.2
+        }
+      ]
+    },
+    {
+      "attr": "سرعة النتيجة",
+      "options": [
+        {
+          "value": "أيام",
+          "points": 1.0
+        },
+        {
+          "value": "أسابيع",
+          "points": 0.6
+        },
+        {
+          "value": "أشهر",
+          "points": 0.2
+        }
+      ]
+    },
+    {
+      "attr": "التكرار",
+      "options": [
+        {
+          "value": "بيخلص وبينطلب",
+          "points": 1.0
+        },
+        {
+          "value": "مرة وحدة",
+          "points": 0.3
+        }
+      ]
+    },
+    {
+      "attr": "شريحة التكلفة",
+      "options": [
+        {
+          "value": "أقل من 2.5$",
+          "points": 1.0
+        },
+        {
+          "value": "2.5–5$",
+          "points": 0.6
+        },
+        {
+          "value": "فوق 5$",
+          "points": 0.3
+        }
+      ]
+    },
+    {
+      "attr": "قابلية العرض",
+      "options": [
+        {
+          "value": "نتيجة بتنشاف",
+          "points": 1.0
+        },
+        {
+          "value": "تجربة حسية",
+          "points": 0.8
+        },
+        {
+          "value": "شرح",
+          "points": 0.6
+        },
+        {
+          "value": "صعب",
+          "points": 0.2
+        }
+      ]
+    },
+    {
+      "attr": "الزاوية",
+      "options": [
+        {
+          "value": "نص نبوي",
+          "points": 1.0
+        },
+        {
+          "value": "قرآن",
+          "points": 1.0
+        },
+        {
+          "value": "تراث بلد",
+          "points": 0.8
+        },
+        {
+          "value": "بلا",
+          "points": 0.4
+        }
+      ]
+    },
+    {
+      "attr": "مخجلة",
+      "options": [
+        {
+          "value": "نعم",
+          "points": 0.8
+        },
+        {
+          "value": "لا",
+          "points": 0.6
+        }
+      ]
+    },
+    {
+      "attr": "بتنشاف",
+      "options": [
+        {
+          "value": "نعم",
+          "points": 0.8
+        },
+        {
+          "value": "لا",
+          "points": 0.6
+        }
+      ]
+    },
+    {
+      "attr": "اللوجستيات",
+      "options": [
+        {
+          "value": "كريم أو صلب",
+          "points": 1.0
+        },
+        {
+          "value": "سائل",
+          "points": 0.7
+        },
+        {
+          "value": "جهاز",
+          "points": 0.6
+        },
+        {
+          "value": "هش أو حساس للحرارة",
+          "points": 0.3
+        }
+      ]
+    },
+    {
+      "attr": "الحساسية التنظيمية",
+      "options": [
+        {
+          "value": "تجميلي",
+          "points": 1.0
+        },
+        {
+          "value": "يحتاج تسجيل",
+          "points": 0.5
+        },
+        {
+          "value": "مقيّد إعلانياً",
+          "points": 0.3
+        }
+      ]
+    }
+  ],
+  "markets": [
+    {
+      "code": "SY",
+      "nameAr": "سوريا",
+      "currency": "USD",
+      "values": {
+        "market.currency": {
+          "label": "عملة الحساب",
+          "raw": "دولار"
+        },
+        "fx.jod_usd": {
+          "label": "سعر صرف الدينار",
+          "raw": "1.41"
+        },
+        "market.delivery_fee": {
+          "label": "أجرة التوصيل لكل شحنة",
+          "raw": "تعبّيها"
+        },
+        "market.return_fee": {
+          "label": "أجرة المرتجع",
+          "raw": "تعبّيها (صفر إذا ما في)"
+        },
+        "market.default_return": {
+          "label": "المرتجع المتوقع قبل التعلّم",
+          "raw": "25%"
+        },
+        "market.safety_margin": {
+          "label": "هامش الأمان",
+          "raw": "30%"
+        },
+        "market.min_cpa_ceiling": {
+          "label": "الحد الأدنى لسقف تكلفة الطلب",
+          "raw": "4$"
+        },
+        "market.test_budget": {
+          "label": "ميزانية الاختبار",
+          "raw": "300–400$"
+        },
+        "market.test_days": {
+          "label": "مدة الاختبار",
+          "raw": "5–7"
+        },
+        "market.stop.cpa": {
+          "label": "إيقاف بالتكلفة",
+          "raw": "فوق سقف التكبير بعد أول 100$"
+        },
+        "market.stop.return_first_50": {
+          "label": "إيقاف بالمرتجع",
+          "raw": "32%"
+        },
+        "market.max_unit_cost": {
+          "label": "أقصى تكلفة وحدة",
+          "raw": "2.5$"
+        },
+        "market.offer_mix": {
+          "label": "مزيج العروض الافتراضي (1 · 2 · 3 حبات)",
+          "raw": "60% · 30% · 10%"
+        }
+      }
+    },
+    {
+      "code": "JO",
+      "nameAr": "الأردن",
+      "currency": "USD",
+      "values": {
+        "market.currency": {
+          "label": "عملة الحساب",
+          "raw": "دولار (التكاليف بالدينار بتتحوّل)"
+        },
+        "fx.jod_usd": {
+          "label": "سعر صرف الدينار",
+          "raw": "1.41"
+        },
+        "market.delivery_fee": {
+          "label": "أجرة التوصيل لكل شحنة",
+          "raw": "تعبّيها"
+        },
+        "market.return_fee": {
+          "label": "أجرة المرتجع",
+          "raw": "تعبّيها"
+        },
+        "market.default_return": {
+          "label": "المرتجع المتوقع قبل التعلّم",
+          "raw": "تعبّيها"
+        },
+        "market.safety_margin": {
+          "label": "هامش الأمان",
+          "raw": "30%"
+        },
+        "market.min_cpa_ceiling": {
+          "label": "الحد الأدنى لسقف تكلفة الطلب",
+          "raw": "تعبّيها"
+        },
+        "market.test_budget": {
+          "label": "ميزانية الاختبار",
+          "raw": "تعبّيها"
+        },
+        "market.test_days": {
+          "label": "مدة الاختبار",
+          "raw": "تعبّيها"
+        },
+        "market.stop.cpa": {
+          "label": "إيقاف بالتكلفة",
+          "raw": "تعبّيها"
+        },
+        "market.stop.return_first_50": {
+          "label": "إيقاف بالمرتجع",
+          "raw": "تعبّيها"
+        },
+        "market.max_unit_cost": {
+          "label": "أقصى تكلفة وحدة",
+          "raw": "تعبّيها"
+        },
+        "market.offer_mix": {
+          "label": "مزيج العروض الافتراضي (1 · 2 · 3 حبات)",
+          "raw": "تعبّيها"
+        }
+      }
+    }
+  ],
+  "agentBudgets": [
+    {
+      "agent": "A01 كشّاف الأسواق",
+      "dailyRaw": "1$",
+      "callsRaw": "500"
+    },
+    {
+      "agent": "A02 كشّاف دويين",
+      "dailyRaw": "2$",
+      "callsRaw": "200"
+    },
+    {
+      "agent": "A03 كشّاف الإعلانات",
+      "dailyRaw": "1$",
+      "callsRaw": "300"
+    },
+    {
+      "agent": "A04 كشّاف البحث والسوشال",
+      "dailyRaw": "1$",
+      "callsRaw": "200"
+    },
+    {
+      "agent": "A05 كشّاف الحمض الداخلي",
+      "dailyRaw": "0.5$",
+      "callsRaw": "10"
+    },
+    {
+      "agent": "A06 الماسح",
+      "dailyRaw": "1$",
+      "callsRaw": "1000"
+    },
+    {
+      "agent": "A07 المحقق",
+      "dailyRaw": "5$",
+      "callsRaw": "40"
+    },
+    {
+      "agent": "A08 مطابق الحمض",
+      "dailyRaw": "0.5$",
+      "callsRaw": "50"
+    },
+    {
+      "agent": "A09 محلل الاقتصاد",
+      "dailyRaw": "0.5$",
+      "callsRaw": "50"
+    },
+    {
+      "agent": "A10 محلل جاهزية الأسواق",
+      "dailyRaw": "0.5$",
+      "callsRaw": "50"
+    },
+    {
+      "agent": "A11 حارس الامتثال",
+      "dailyRaw": "3$",
+      "callsRaw": "60"
+    },
+    {
+      "agent": "A12 باحث التركيبات",
+      "dailyRaw": "2$",
+      "callsRaw": "10"
+    },
+    {
+      "agent": "A13 وكيل التوريد",
+      "dailyRaw": "1$",
+      "callsRaw": "20"
+    },
+    {
+      "agent": "A14 وكيل العلامة",
+      "dailyRaw": "2$",
+      "callsRaw": "10"
+    },
+    {
+      "agent": "A15 صانع الترند",
+      "dailyRaw": "2$",
+      "callsRaw": "30"
+    },
+    {
+      "agent": "A16 الاستشاري",
+      "dailyRaw": "5$",
+      "callsRaw": "200"
+    },
+    {
+      "agent": "A17 كاتب التقارير",
+      "dailyRaw": "0.5$",
+      "callsRaw": "10"
+    },
+    {
+      "agent": "H01 · H02",
+      "dailyRaw": "داخلي",
+      "callsRaw": "—"
+    },
+    {
+      "agent": "السقف الشهري للكل",
+      "dailyRaw": "100$",
+      "callsRaw": "النظام بيوقف الوكلاء الخارجيين عنده"
+    }
+  ],
+  "rejectReasons": [
+    {
+      "code": "R01",
+      "labelAr": "السوق مشبّع"
+    },
+    {
+      "code": "R02",
+      "labelAr": "الترند قديم"
+    },
+    {
+      "code": "R03",
+      "labelAr": "الهامش ضعيف"
+    },
+    {
+      "code": "R04",
+      "labelAr": "امتثال: ادعاء أو مكوّن"
+    },
+    {
+      "code": "R05",
+      "labelAr": "فئة علاجية بلا مسار ترخيص"
+    },
+    {
+      "code": "R06",
+      "labelAr": "لوجستيات صعبة"
+    },
+    {
+      "code": "R07",
+      "labelAr": "جودة المورّد أو العيّنة ضعيفة"
+    },
+    {
+      "code": "R08",
+      "labelAr": "ما بيناسب جمهورنا"
+    },
+    {
+      "code": "R09",
+      "labelAr": "مكرر لمنتج عندنا"
+    },
+    {
+      "code": "R10",
+      "labelAr": "البيانات ضعيفة"
+    },
+    {
+      "code": "R11",
+      "labelAr": "مقيّد إعلانياً"
+    },
+    {
+      "code": "R12",
+      "labelAr": "سبب تاني (بنص)"
+    }
+  ],
+  "templates": {
+    "supplier_score": [
+      {
+        "criterion": "السعر",
+        "weight": 25,
+        "how": "مقارنة بأرخص عرض مقبول"
+      },
+      {
+        "criterion": "جودة العيّنة",
+        "weight": 30,
+        "how": "من تقييم العيّنة"
+      },
+      {
+        "criterion": "شهادة التحليل",
+        "weight": 15,
+        "how": "بيعطيها لكل دفعة؟"
+      },
+      {
+        "criterion": "مدة التوريد",
+        "weight": 10,
+        "how": "أقصر أفضل"
+      },
+      {
+        "criterion": "الحد الأدنى للطلب",
+        "weight": 10,
+        "how": "الأقل أفضل للاختبار"
+      },
+      {
+        "criterion": "التواصل والالتزام",
+        "weight": 10,
+        "how": "سرعة الرد والدقة"
+      }
+    ],
+    "sample_criteria": [
+      "الرائحة",
+      "القوام والامتصاص",
+      "التغليف والإغلاق",
+      "مطابقة الوصف والصور",
+      "الثبات بعد أسبوع بحرارة الغرفة",
+      "بلا تهيّج بتجربة منطقة صغيرة"
+    ],
+    "brand_brief": [
+      {
+        "field": "المنتج والمشكلة",
+        "content": ""
+      },
+      {
+        "field": "الجمهور",
+        "content": "العمر · الجنس · البلد · وين بيتواجد"
+      },
+      {
+        "field": "الأسماء المقترحة",
+        "content": "5 أسماء + حالة فحص العلامة التجارية"
+      },
+      {
+        "field": "التموضع",
+        "content": "جملة وحدة"
+      },
+      {
+        "field": "سبب التفوق",
+        "content": ""
+      },
+      {
+        "field": "الزاوية التراثية",
+        "content": ""
+      },
+      {
+        "field": "الألوان والخط",
+        "content": ""
+      },
+      {
+        "field": "فكرة الشعار",
+        "content": ""
+      },
+      {
+        "field": "نص الملصق",
+        "content": "من قالب الملصق"
+      },
+      {
+        "field": "عناصر الثقة",
+        "content": ""
+      },
+      {
+        "field": "قصة الأصل",
+        "content": "قصة حقيقية، مش مخترعة"
+      },
+      {
+        "field": "الحالة",
+        "content": "مسودة · بانتظار فحص العلامة · معتمد"
+      }
+    ],
+    "label_text": [
+      {
+        "element": "الاسم والعلامة",
+        "example": ""
+      },
+      {
+        "element": "الوظيفة بكلمات تجميلية",
+        "example": "«زيت عناية بالشعر بإكليل الجبل»"
+      },
+      {
+        "element": "المكونات (INCI)",
+        "example": "بالترتيب حسب الكمية"
+      },
+      {
+        "element": "الحجم الصافي",
+        "example": "30 مل"
+      },
+      {
+        "element": "رقم الدفعة",
+        "example": ""
+      },
+      {
+        "element": "الإنتاج والانتهاء أو الصلاحية بعد الفتح",
+        "example": ""
+      },
+      {
+        "element": "المصنّع أو المسؤول وبلد المنشأ",
+        "example": ""
+      },
+      {
+        "element": "طريقة الاستخدام",
+        "example": ""
+      },
+      {
+        "element": "التحذيرات",
+        "example": "«للاستعمال الخارجي · جرّبه على منطقة صغيرة · بعيداً عن العين» حسب المنتج"
+      },
+      {
+        "element": "رقم التسجيل",
+        "example": "إذا مسجّل"
+      },
+      {
+        "element": "الباركود ضد التقليد",
+        "example": ""
+      }
+    ],
+    "batch_record": [
+      {
+        "field": "المنتج والمورّد",
+        "note": ""
+      },
+      {
+        "field": "رقم الدفعة · الكمية",
+        "note": ""
+      },
+      {
+        "field": "تاريخ الإنتاج والانتهاء",
+        "note": ""
+      },
+      {
+        "field": "شهادة التحليل (ملف)",
+        "note": "إلزامي"
+      },
+      {
+        "field": "فحص مستقل (ملف)",
+        "note": "إلزامي لأول دفعة ولفئات خطر الغش"
+      },
+      {
+        "field": "تعقيم (لمنتجات العين)",
+        "note": "إلزامي"
+      },
+      {
+        "field": "الحالة",
+        "note": "بانتظار · مُفرج عنها · موقوفة"
+      },
+      {
+        "field": "ملاحظات الجودة والشكاوى",
+        "note": ""
+      }
+    ],
+    "license_record": [
+      {
+        "field": "المنتج · البلد",
+        "note": ""
+      },
+      {
+        "field": "الجهة",
+        "note": ""
+      },
+      {
+        "field": "النوع",
+        "note": "تسجيل مستحضر · تسجيل دواء أو مكمّل · إشعار · مش لازم"
+      },
+      {
+        "field": "رقم التسجيل",
+        "note": ""
+      },
+      {
+        "field": "تاريخ الإصدار والانتهاء",
+        "note": ""
+      },
+      {
+        "field": "الحالة",
+        "note": "مطلوب · مقدَّم · صادر · منتهي"
+      },
+      {
+        "field": "أيام التنبيه قبل الانتهاء",
+        "note": "60"
+      }
+    ]
+  },
+  "testPages": [
+    {
+      "name": "عناية الشعر الطبيعية",
+      "platform": "فيسبوك + إنستغرام",
+      "focus": "تساقط · قشرة · شيب",
+      "statusRaw": "مخططة"
+    },
+    {
+      "name": "وصفات من التراث",
+      "platform": "فيسبوك + تيك توك",
+      "focus": "مكونات تراثية لكل المشاكل",
+      "statusRaw": "مخططة"
+    },
+    {
+      "name": "عناية الرجل",
+      "platform": "فيسبوك + إنستغرام",
+      "focus": "منتجات الرجال بزاوية عناية وثقة",
+      "statusRaw": "مخططة"
+    }
+  ],
+  "launchChecklist": [
+    "المسودة بالـ OMS: الاسم · السعر · العروض · التوصيل · البلد · التكلفة · التصنيف",
+    "الامتثال: مقبول بأسبابه · الادعاءات المسموحة والممنوعة · النصوص المعتمدة · قواعد الإعلانات",
+    "الجودة: شهادة التحليل · الفحص المستقل · سجل الدفعة · التعقيم (للعين)",
+    "الترخيص: موجود أو مش لازم",
+    "العلامة: الاسم بعد فحص العلامة التجارية · نص الملصق المعتمد · الملف المرجعي (6 صور مفرّغة · الأبعاد · نص الملصق)",
+    "الترند: الزوايا الرابحة بدرجاتها",
+    "الميديا باير: خطة الاختبار بشروط الإيقاف",
+    "المالية: الميزانية المطلوبة · تكلفة العيّنات والدفعة الأولى",
+    "مساحة العمل والمهام والكليبر والأزمات: كل واحد حصته"
+  ]
+}

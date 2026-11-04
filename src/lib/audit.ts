@@ -13,6 +13,8 @@ export interface AuditEntry {
 
 export type AuditInput = Omit<AuditEntry, "id" | "at">;
 
+import { sinks } from "@/lib/hooks";
+
 const SENSITIVE = /(token|secret|key|password|authorization|cookie)/i;
 const MAX_ENTRIES = 10_000;
 
@@ -32,6 +34,12 @@ const g = globalThis as unknown as { __s1Audit?: { store: AuditEntry[]; seq: num
 const state = (g.__s1Audit ??= { store: [], seq: 0 });
 const store = state.store;
 
+export function hydrateAudit(entries: AuditEntry[]) {
+  store.length = 0;
+  store.push(...entries);
+  state.seq = entries.length;
+}
+
 export function recordAudit(input: AuditInput, now: Date = new Date()): AuditEntry {
   const entry: AuditEntry = {
     ...input,
@@ -42,6 +50,7 @@ export function recordAudit(input: AuditInput, now: Date = new Date()): AuditEnt
   };
   store.push(entry);
   if (store.length > MAX_ENTRIES) store.shift();
+  sinks.audit?.(entry);
   return entry;
 }
 
