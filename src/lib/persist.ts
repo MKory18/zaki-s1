@@ -8,26 +8,27 @@ import { sinks } from "@/lib/hooks";
 import { hydrateUsers, type UserRecord } from "@/lib/users";
 import { isRole } from "@/core/permissions";
 
-const g = globalThis as unknown as { __s1Hydrate?: Promise<void>; __s1Pending?: Set<Promise<unknown>> };
-const pending = (g.__s1Pending ??= new Set<Promise<unknown>>());
+const g = globalThis as unknown as { __s1Hydrate?: Promise<void>; __s1Chain?: Promise<unknown> };
 
 export function persistenceEnabled(env = process.env): boolean {
   return dbConfigured(env) && env.NODE_ENV !== "test";
 }
 
-function track(p: Promise<unknown>) {
-  const safe = p.catch((e) => console.error("[persist] فشل الحفظ بالقاعدة:", e instanceof Error ? e.message : e)).finally(() => pending.delete(safe));
-  pending.add(safe);
+// الكتابات بتمشي بالترتيب (سلسلة وحدة): تعديل المستخدم بعد إنشائه لازم يوصل القاعدة بعده، مش قبله.
+function track(op: () => Promise<unknown>) {
+  g.__s1Chain = (g.__s1Chain ?? Promise.resolve()).then(op).catch((e) => {
+    console.error("[persist] فشل الحفظ بالقاعدة:", e instanceof Error ? e.message : e);
+  });
 }
 
 // بيستنى كل الكتابات المعلّقة (الحارس بيناديها قبل ما يرجّع الرد، فالتدقيق ما بيضيع)
 export async function drain(): Promise<void> {
-  if (pending.size) await Promise.allSettled([...pending]);
+  await g.__s1Chain;
 }
 
 function installSinks() {
   sinks.user = (u: UserRecord) =>
-    track(
+    track(() =>
       getDb().user.upsert({
         where: { oidcSub: u.sub },
         create: { oidcSub: u.sub, nameAr: u.name, role: u.role, active: u.active },
@@ -35,7 +36,7 @@ function installSinks() {
       }),
     );
   sinks.audit = (e: AuditEntry) =>
-    track(
+    track(() =>
       getDb().auditLog.create({
         data: {
           actorId: e.actorId,
@@ -49,7 +50,7 @@ function installSinks() {
       }),
     );
   sinks.alert = (a: AlertEntry) =>
-    track(getDb().alert.create({ data: { type: a.type, severity: a.severity, message: a.message, link: a.link, channels: [], createdAt: new Date(a.at) } }));
+    track(() => getDb().alert.create({ data: { type: a.type, severity: a.severity, message: a.message, link: a.link, channels: [], createdAt: new Date(a.at) } }));
 }
 
 async function hydrate() {
