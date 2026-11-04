@@ -12,6 +12,7 @@ export default async function HomePage() {
       <p>أهلاً {user.name}. دورك: {ROLE_LABELS_AR[user.role]}.</p>
       <p className="muted">الهيكل جاهز. الميزات بتنضاف مهمة مهمة حسب خطة البناء.</p>
       <nav className="row">
+        {can(user.role, "dashboard.view") && <Link href="/candidates">المرشحين</Link>}
         {can(user.role, "dashboard.view") && <Link href="/sources">المصادر</Link>}
         {can(user.role, "capture.create") && <Link href="/imports">الاستيراد</Link>}
         {can(user.role, "dashboard.view") && <Link href="/dna">الحمض</Link>}
